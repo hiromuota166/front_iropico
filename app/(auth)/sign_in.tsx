@@ -2,6 +2,7 @@ import { Button } from "@/components/Button/Button";
 import { CardOnHeader } from "@/components/Card/CardOnHeader";
 import { FormInput } from "@/components/Form/FormInput";
 import ColorPaletteIcon from "@/components/Icon/ColorPaletteIcon";
+import { Colors } from "@/constants/Colors";
 import { handleSignIn, handleSignUp } from "@/lib/auth";
 import { Stack, useRouter } from "expo-router";
 import React, { useState } from "react";
@@ -9,10 +10,15 @@ import { StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function SignIn() {
+  const NICK_LIMIT = 20;
+
   const router = useRouter();
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [nickName, setNickName] = useState<string>('');
+
+  const nickCount = [...nickName].length;
+  const over = nickCount > NICK_LIMIT;
 
   const handlePress = () => {
     router.push("/room_select");
@@ -35,7 +41,11 @@ export default function SignIn() {
   return (
     <SafeAreaView style={styles.container}>
       <Stack.Screen options={{ headerShown: false }} />
-      <ColorPaletteIcon />
+      <View style={styles.titleView}>
+        <ColorPaletteIcon />
+        <Text style={styles.title}>Iropico</Text>
+        <Text style={styles.subTitle}>指定された色を見つけて撮影しよう</Text>
+      </View>
 
       <CardOnHeader title="アカウント情報" subTitle="ログインまたは新規登録してください" loginHeader>
         <View style={styles.inputContainer}>
@@ -52,20 +62,29 @@ export default function SignIn() {
             value={password}
             onChangeText={setPassword}
           />
-          <FormInput
-            placeholder="ニックネームを入力..."
-            value={nickName}
-            onChangeText={setNickName}
-          />
+          <View>
+            <FormInput
+              placeholder="ニックネームを入力..."
+              centerText
+              value={nickName}
+              onChangeText={setNickName}
+            />
+            <View style={styles.centerAlign}>
+              <Text style={[styles.counterText, over && styles.counterTextOver]}>
+                {nickCount}/{NICK_LIMIT}文字以内
+              </Text>
+            </View>
+          </View>
         </View>
+        <View style={styles.buttonContainer}>
+          <Button onPress={onLoginPress}>
+            <Text>ログイン</Text>
+          </Button>
 
-        <Button onPress={onLoginPress}>
-          <Text>ログイン</Text>
-        </Button>
-
-        <Button onPress={onSignUpPress}>
-          <Text>新規登録</Text>
-        </Button>
+          <Button onPress={onSignUpPress}>
+            <Text>新規登録</Text>
+          </Button>
+        </View>
       </CardOnHeader>
       <Button onPress={handlePress}>
         <Text>ルーム選択画面に移動（認証なしデモ）</Text>
@@ -75,6 +94,11 @@ export default function SignIn() {
 }
 
 const styles = StyleSheet.create({
+  titleView: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 10,
+  },
   container: {
     flex: 1,
     padding: 20,
@@ -84,11 +108,16 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-    marginBottom: 30,
+    color: Colors.textTitle
+  },
+  subTitle: {
+    fontSize: 16,
+    color: Colors.textContent,
   },
   inputContainer: {
-    width: '80%',
+    width: '100%',
     marginBottom: 20,
+    gap: 10,
   },
   input: {
     height: 50,
@@ -99,5 +128,18 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     fontSize: 12,
     backgroundColor: '#fff',
+  },
+  centerAlign: {
+    alignItems: 'center',
+  },
+  buttonContainer: {
+    gap: 10,
+  },
+  counterText: {
+    fontSize: 12,
+    color: Colors.textContent,
+  },
+  counterTextOver: {
+    color: Colors.notification,
   },
 });

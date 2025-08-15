@@ -12,19 +12,21 @@ import { inputStyles } from './InputStyle';
 
 type Props = TextInputProps & {
   containerStyle?: StyleProp<ViewStyle>;
+  centerText?: boolean;
   helperText?: string;
   errorText?: string;
   error?: boolean;
 };
 
 export const FormInput = forwardRef<TextInput, Props>(
-  ({ containerStyle, helperText, errorText, error, style, ...rest }, ref) => {
+  ({ containerStyle, centerText, helperText, errorText, error, style, ...rest }, ref) => {
     return (
       <View style={containerStyle}>
         <TextInput
           ref={ref}
           style={[
             inputStyles.base,
+            centerText && inputStyles.centerText,
             error && inputStyles.error,
             style,
           ]}

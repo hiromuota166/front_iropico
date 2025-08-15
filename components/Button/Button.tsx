@@ -1,6 +1,6 @@
+import { Colors } from '@/constants/Colors';
 import React, { ReactNode } from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
-import { Colors } from '@/constants/Colors';
 
 type ButtonProps = {
   onPress: () => void;
@@ -28,5 +28,8 @@ const styles = StyleSheet.create({
     borderColor: Colors.button,
     backgroundColor: Colors.button,
     borderRadius: 6.75,
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
   }
 })
