@@ -8,7 +8,7 @@ export default function ColorPaletteIcon() {
     <RoundIcon>
       <MaterialCommunityIcons
         name="palette-outline"
-        size={24}
+        size={35}
         color={Colors.textWhite}
       />
     </RoundIcon>

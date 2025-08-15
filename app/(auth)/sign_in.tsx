@@ -2,6 +2,7 @@ import { Button } from "@/components/Button/Button";
 import { CardOnHeader } from "@/components/Card/CardOnHeader";
 import { FormInput } from "@/components/Form/FormInput";
 import ColorPaletteIcon from "@/components/Icon/ColorPaletteIcon";
+import { Colors } from "@/constants/Colors";
 import { handleSignIn, handleSignUp } from "@/lib/auth";
 import { Stack, useRouter } from "expo-router";
 import React, { useState } from "react";
@@ -35,7 +36,11 @@ export default function SignIn() {
   return (
     <SafeAreaView style={styles.container}>
       <Stack.Screen options={{ headerShown: false }} />
-      <ColorPaletteIcon />
+      <View style={styles.titleView}>
+        <ColorPaletteIcon />
+        <Text style={styles.title}>Iropico</Text>
+        <Text style={styles.subTitle}>指定された色を見つけて撮影しよう</Text>
+      </View>
 
       <CardOnHeader title="アカウント情報" subTitle="ログインまたは新規登録してください" loginHeader>
         <View style={styles.inputContainer}>
@@ -82,6 +87,11 @@ export default function SignIn() {
 }
 
 const styles = StyleSheet.create({
+  titleView: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 10,
+  },
   container: {
     flex: 1,
     padding: 20,
@@ -91,7 +101,11 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-    marginBottom: 30,
+    color: Colors.textTitle
+  },
+  subTitle: {
+    fontSize: 16,
+    color: Colors.textContent,
   },
   inputContainer: {
     width: '100%',
