@@ -10,10 +10,15 @@ import { StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function SignIn() {
+  const NICK_LIMIT = 20;
+
   const router = useRouter();
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [nickName, setNickName] = useState<string>('');
+
+  const nickCount = [...nickName].length;
+  const over = nickCount > NICK_LIMIT;
 
   const handlePress = () => {
     router.push("/room_select");
@@ -65,7 +70,9 @@ export default function SignIn() {
               onChangeText={setNickName}
             />
             <View style={styles.centerAlign}>
-              <Text>20文字以内</Text>
+              <Text style={[styles.counterText, over && styles.counterTextOver]}>
+                {nickCount}/{NICK_LIMIT}文字以内
+              </Text>
             </View>
           </View>
         </View>
@@ -127,5 +134,12 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     gap: 10,
-  }
+  },
+  counterText: {
+    fontSize: 12,
+    color: Colors.textContent,
+  },
+  counterTextOver: {
+    color: Colors.notification,
+  },
 });
