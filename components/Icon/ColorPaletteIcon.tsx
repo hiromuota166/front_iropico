@@ -1,7 +1,7 @@
-import React from 'react';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import RoundIcon from './RoundIcon';
 import { Colors } from '@/constants/Colors';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import React from 'react';
+import RoundIcon from './RoundIcon';
 
 export default function ColorPaletteIcon() {
   return (

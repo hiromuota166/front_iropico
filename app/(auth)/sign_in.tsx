@@ -52,20 +52,27 @@ export default function SignIn() {
             value={password}
             onChangeText={setPassword}
           />
-          <FormInput
-            placeholder="ニックネームを入力..."
-            value={nickName}
-            onChangeText={setNickName}
-          />
+          <View>
+            <FormInput
+              placeholder="ニックネームを入力..."
+              centerText
+              value={nickName}
+              onChangeText={setNickName}
+            />
+            <View style={{ alignItems: 'center' }}>
+              <Text>20文字以内</Text>
+            </View>
+          </View>
         </View>
+        <View style={{ gap: 10 }}>
+          <Button onPress={onLoginPress}>
+            <Text>ログイン</Text>
+          </Button>
 
-        <Button onPress={onLoginPress}>
-          <Text>ログイン</Text>
-        </Button>
-
-        <Button onPress={onSignUpPress}>
-          <Text>新規登録</Text>
-        </Button>
+          <Button onPress={onSignUpPress}>
+            <Text>新規登録</Text>
+          </Button>
+        </View>
       </CardOnHeader>
       <Button onPress={handlePress}>
         <Text>ルーム選択画面に移動（認証なしデモ）</Text>
@@ -87,8 +94,9 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
   inputContainer: {
-    width: '80%',
+    width: '100%',
     marginBottom: 20,
+    gap: 10,
   },
   input: {
     height: 50,
