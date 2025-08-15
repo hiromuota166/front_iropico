@@ -11,6 +11,10 @@ export const inputStyles = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: Colors.inputBackground,
   },
+  centerText: {
+    textAlign: 'center',
+    textAlignVertical: 'center',
+  },
   error: {
     borderColor: Colors.notification,
   },

@@ -64,12 +64,12 @@ export default function SignIn() {
               value={nickName}
               onChangeText={setNickName}
             />
-            <View style={{ alignItems: 'center' }}>
+            <View style={styles.centerAlign}>
               <Text>20文字以内</Text>
             </View>
           </View>
         </View>
-        <View style={{ gap: 10 }}>
+        <View style={styles.buttonContainer}>
           <Button onPress={onLoginPress}>
             <Text>ログイン</Text>
           </Button>
@@ -122,4 +122,10 @@ const styles = StyleSheet.create({
     fontSize: 12,
     backgroundColor: '#fff',
   },
+  centerAlign: {
+    alignItems: 'center',
+  },
+  buttonContainer: {
+    gap: 10,
+  }
 });

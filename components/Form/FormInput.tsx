@@ -26,7 +26,7 @@ export const FormInput = forwardRef<TextInput, Props>(
           ref={ref}
           style={[
             inputStyles.base,
-            centerText && { textAlign: 'center', textAlignVertical: 'center' },
+            centerText && inputStyles.centerText,
             error && inputStyles.error,
             style,
           ]}
