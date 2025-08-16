@@ -41,7 +41,6 @@ export const ColorCardAnimation = ({ colorCode }: ColorCardAnimationProps) => {
 
 const styles = StyleSheet.create({
   pop: {
-    backgroundColor: Colors.textContent,
     width: 100,
     height: 100,
     borderRadius: 10,
