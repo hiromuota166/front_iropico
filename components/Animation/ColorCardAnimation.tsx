@@ -2,7 +2,11 @@ import { Colors } from '@/constants/Colors';
 import React, { useEffect, useRef } from 'react';
 import { Animated, Easing, StyleSheet } from 'react-native';
 
-export const ColorCardAnimation = () => {
+type ColorCardAnimationProps = {
+  colorCode: string;
+};
+
+export const ColorCardAnimation = ({ colorCode }: ColorCardAnimationProps) => {
   const y = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
@@ -30,7 +34,7 @@ export const ColorCardAnimation = () => {
 
   return (
     <Animated.View
-      style={[styles.pop, { transform: [{ translateY: y }] }]}
+      style={[styles.pop, { backgroundColor: colorCode, transform: [{ translateY: y }] }]}
     />
   );
 };

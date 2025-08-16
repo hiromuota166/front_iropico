@@ -11,6 +11,9 @@ export default function GameTop() {
   const handlePress = () => {
     router.push("/(game)/1/countdown");
   };
+
+  const testColorCode = "#45B7D1";
+  const testColorName = "スカイブルー";
   return (
     <ScreenContainer>
       <Stack.Screen options={{ headerShown: false }} />
@@ -18,9 +21,9 @@ export default function GameTop() {
         <View style={styles.container}>
           <Text className="text-2xl font-bold mb-4" style={styles.title}>ラウンド１</Text>
           <Text className="text-2xl font-bold mb-4" style={styles.search}>探す色は...</Text>
-          <ColorCardAnimation />
-          <Text className="text-2xl font-bold mb-4" style={styles.title}>スカイブルー</Text>
-          <Text className="text-2xl font-bold mb-4" style={styles.search}>#45B7D1</Text>
+          <ColorCardAnimation colorCode={testColorCode} />
+          <Text className="text-2xl font-bold mb-4" style={styles.title}>{testColorName}</Text>
+          <Text className="text-2xl font-bold mb-4" style={styles.search}>{testColorCode}</Text>
         </View>
       </Card>
       <Button onPress={handlePress}>
