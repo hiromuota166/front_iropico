@@ -1,6 +1,8 @@
 import { Button } from "@/components/Button/Button";
+import UserGroupIcon from "@/components/Icon/UserGroupIcon";
 import ScreenContainer from "@/components/ScreenContainer";
-import { Stack, useRouter } from "expo-router";
+import { TitleIconAndText } from "@/components/TitleIconAndText";
+import { useRouter } from "expo-router";
 import { Text } from "react-native";
 
 export default function RoomTop() {
@@ -11,10 +13,14 @@ export default function RoomTop() {
   const roomOut = () => {
     router.push("/room_select");
   };
+
+  const groupCode = "1234-5678";
+
   return (
     <ScreenContainer>
-      {/* <Stack.Screen options={{ headerShown: false }} /> */}
-      <Text>ルーム画面</Text>
+      <TitleIconAndText title="ロビー" subTitle={`グループコード : ${groupCode}`}>
+        <UserGroupIcon />
+      </TitleIconAndText>
       <Button onPress={handlePress}>
         <Text>ゲームスタート画面に遷移する</Text>
       </Button>
