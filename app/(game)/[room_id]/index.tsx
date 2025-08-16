@@ -1,3 +1,4 @@
+import { ColorCardAnimation } from "@/components/Animation/ColorCardAnimation";
 import { Button } from "@/components/Button/Button";
 import { Card } from "@/components/Card/Card";
 import ScreenContainer from "@/components/ScreenContainer";
@@ -17,6 +18,7 @@ export default function GameTop() {
         <View style={styles.container}>
           <Text className="text-2xl font-bold mb-4" style={styles.title}>ラウンド１</Text>
           <Text className="text-2xl font-bold mb-4" style={styles.search}>探す色は...</Text>
+          <ColorCardAnimation />
           <Text className="text-2xl font-bold mb-4" style={styles.title}>スカイブルー</Text>
           <Text className="text-2xl font-bold mb-4" style={styles.search}>#45B7D1</Text>
         </View>
@@ -30,7 +32,6 @@ export default function GameTop() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     justifyContent: "center",
     alignItems: "center",
     gap: 16,
