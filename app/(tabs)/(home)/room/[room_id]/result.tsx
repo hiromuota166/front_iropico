@@ -1,6 +1,6 @@
 import { Button } from "@/components/Button/Button";
 import ScreenContainer from "@/components/ScreenContainer";
-import { Stack, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import { Text } from "react-native";
 
 export default function Result() {
@@ -15,12 +15,8 @@ export default function Result() {
     <ScreenContainer>
       {/* <Stack.Screen options={{ headerShown: false }} /> */}
       <Text>結果画面</Text>
-      <Button onPress={handlePress}>
-        <Text>ゲームスタート</Text>
-      </Button>
-      <Button onPress={roomOut}>
-        <Text>ルームから出る</Text>
-      </Button>
+      <Button onPress={handlePress} text='ゲームスタート' />
+      <Button onPress={roomOut} text='ルームから出る' />
     </ScreenContainer>
   )
 }

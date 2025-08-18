@@ -26,9 +26,7 @@ export default function GameTop() {
           <Text className="text-2xl font-bold mb-4" style={styles.search}>{testColorCode}</Text>
         </View>
       </Card>
-      <Button onPress={handlePress}>
-        <Text className="text-lg font-bold">デバッグ用の次へボタン</Text>
-      </Button>
+      <Button onPress={handlePress} text='次へ' />
     </ScreenContainer>
   )
 }

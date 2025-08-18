@@ -17,12 +17,8 @@ export default function RoomSelect() {
     <ScreenContainer>
       {/* <Stack.Screen options={{ headerShown: false }} /> */}
       <Text>ルーム作成or参加ページ</Text>
-      <Button onPress={handlePress}>
-        <Text>ルーム画面に遷移する</Text>
-      </Button>
-      <Button onPress={handlePressLogout}>
-        <Text>ログアウトする</Text>
-      </Button>
+      <Button onPress={handlePress} text='ルーム画面に遷移する' />
+      <Button onPress={handlePressLogout} text='ログアウトする' />
     </ScreenContainer>
   )
 }

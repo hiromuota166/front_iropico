@@ -1,12 +1,12 @@
 import { Button } from "@/components/Button/Button";
-import ScreenContainer from "@/components/ScreenContainer";
-import { Stack, useRouter } from "expo-router";
-import React, { useState } from 'react';
-import { ActivityIndicator, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { CameraCapture } from '@/components/Camera/CameraCapture';
 import { ImagePreview } from '@/components/Camera/ImagePreview';
 import { Card } from '@/components/Card/Card';
+import ScreenContainer from "@/components/ScreenContainer";
 import { fetchScore } from '@/lib/scoreApi';
+import { Stack, useRouter } from "expo-router";
+import React, { useState } from 'react';
+import { ActivityIndicator, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 export default function Capture() {
   const [previewUri, setPreviewUri] = useState<string | null>(null);
@@ -45,10 +45,7 @@ export default function Capture() {
     <ScreenContainer>
       <Stack.Screen options={{ headerShown: false }} />
       <Text>結果待ち画面</Text>
-      <Button onPress={handlePress}>
-        <Text>本来は勝手に数秒後に結果画面に遷移する</Text>
-        <Text>テストなので今はこのボタンを押して次に移動</Text>
-      </Button>
+      <Button onPress={handlePress} text='次へ' />
       <View style={styles.container}>
         {previewUri ? (
           <ImagePreview uri={previewUri}>

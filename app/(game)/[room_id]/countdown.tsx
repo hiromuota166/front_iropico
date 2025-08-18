@@ -12,10 +12,7 @@ export default function Countdown() {
     <ScreenContainer>
       <Stack.Screen options={{ headerShown: false }} />
       <Text>カウント画面。多分ここでユーザーに写真撮ってもらうイメージになるのかな？</Text>
-      <Button onPress={handlePress}>
-        <Text>本来は勝手に数秒後に結果待ち画面に遷移する</Text>
-        <Text>テストなので今はこのボタンを押して次に移動</Text>
-      </Button>
+      <Button onPress={handlePress} text='次へ' />
     </ScreenContainer>
   )
 }

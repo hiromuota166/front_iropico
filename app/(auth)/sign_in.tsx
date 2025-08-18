@@ -2,6 +2,7 @@ import { Button } from "@/components/Button/Button";
 import { CardOnHeader } from "@/components/Card/CardOnHeader";
 import { FormInput } from "@/components/Form/FormInput";
 import ColorPaletteIcon from "@/components/Icon/ColorPaletteIcon";
+import { TitleIconAndText } from "@/components/TitleIconAndText";
 import { Colors } from "@/constants/Colors";
 import { handleSignIn, handleSignUp } from "@/lib/auth";
 import { Stack, useRouter } from "expo-router";
@@ -41,11 +42,9 @@ export default function SignIn() {
   return (
     <SafeAreaView style={styles.container}>
       <Stack.Screen options={{ headerShown: false }} />
-      <View style={styles.titleView}>
+      <TitleIconAndText title="Iropico" subTitle="指定された色を見つけて撮影しよう">
         <ColorPaletteIcon />
-        <Text style={styles.title}>Iropico</Text>
-        <Text style={styles.subTitle}>指定された色を見つけて撮影しよう</Text>
-      </View>
+      </TitleIconAndText>
 
       <CardOnHeader title="アカウント情報" subTitle="ログインまたは新規登録してください" loginHeader>
         <View style={styles.inputContainer}>
@@ -77,18 +76,12 @@ export default function SignIn() {
           </View>
         </View>
         <View style={styles.buttonContainer}>
-          <Button onPress={onLoginPress}>
-            <Text>ログイン</Text>
-          </Button>
+          <Button onPress={onLoginPress} text='ログイン' />
 
-          <Button onPress={onSignUpPress}>
-            <Text>新規登録</Text>
-          </Button>
+          <Button onPress={onSignUpPress} text='新規登録' />
         </View>
       </CardOnHeader>
-      <Button onPress={handlePress}>
-        <Text>ルーム選択画面に移動（認証なしデモ）</Text>
-      </Button>
+      <Button onPress={handlePress} text='ルーム選択画面に移動（認証なしデモ）' />
     </SafeAreaView>
   );
 }
