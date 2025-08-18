@@ -6,7 +6,6 @@ type TitleIconAndTextProps = {
   title: string;
   subTitle: string;
   children: React.ReactNode;
-
 };
 
 export const TitleIconAndText: React.FC<TitleIconAndTextProps> = ({ title, subTitle, children }) => {
