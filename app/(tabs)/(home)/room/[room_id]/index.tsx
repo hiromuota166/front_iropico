@@ -1,9 +1,12 @@
 import { Button } from "@/components/Button/Button";
+import { Card } from "@/components/Card/Card";
+import { CardHeader } from "@/components/Card/CardHeader";
 import UserGroupIcon from "@/components/Icon/UserGroupIcon";
 import ScreenContainer from "@/components/ScreenContainer";
 import { TitleIconAndText } from "@/components/TitleIconAndText";
+import { UserList } from "@/components/UserList";
 import { useRouter } from "expo-router";
-import { Text } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 
 export default function RoomTop() {
   const router = useRouter();
@@ -15,12 +18,21 @@ export default function RoomTop() {
   };
 
   const groupCode = "1234-5678";
+  const groupMemberNum = 3;
 
   return (
     <ScreenContainer>
       <TitleIconAndText title="ロビー" subTitle={`グループコード : ${groupCode}`}>
         <UserGroupIcon />
       </TitleIconAndText>
+      <Card>
+        <CardHeader title={`参加者：${groupMemberNum}人`} />
+        <View style={styles.cardChildren}>
+          <UserList userName="ユーザー名" youBadge={true} />
+          <UserList userName="ユーザー名" />
+          <UserList userName="ユーザー名" />
+        </View>
+      </Card>
       <Button onPress={handlePress}>
         <Text>ゲームスタート画面に遷移する</Text>
       </Button>
@@ -30,3 +42,10 @@ export default function RoomTop() {
     </ScreenContainer>
   )
 }
+
+const styles = StyleSheet.create({
+  cardChildren: {
+    margin: 16,
+    gap: 10,
+  }
+});

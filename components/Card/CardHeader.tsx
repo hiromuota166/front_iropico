@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
   header: {
     backgroundColor: Colors.border,
     paddingVertical: 4,
-    paddingHorizontal: 20,
+    paddingHorizontal: 16,
     alignItems: 'flex-start',
   },
   headerCenter: {
