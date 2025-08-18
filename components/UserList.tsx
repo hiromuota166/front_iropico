@@ -28,7 +28,6 @@ const styles = StyleSheet.create({
   },
   textContainer: {
     flex: 1,
-    width: '100%',
     marginLeft: 12,
   },
 });
