@@ -6,7 +6,7 @@ import ScreenContainer from "@/components/ScreenContainer";
 import { TitleIconAndText } from "@/components/TitleIconAndText";
 import { UserList } from "@/components/UserList";
 import { useRouter } from "expo-router";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 
 export default function RoomTop() {
   const router = useRouter();
@@ -25,20 +25,22 @@ export default function RoomTop() {
       <TitleIconAndText title="ロビー" subTitle={`グループコード : ${groupCode}`}>
         <UserGroupIcon />
       </TitleIconAndText>
-      <Card>
-        <CardHeader title={`参加者：${groupMemberNum}人`} />
-        <View style={styles.cardChildren}>
-          <UserList userName="ユーザー名" youBadge={true} />
-          <UserList userName="ユーザー名" />
-          <UserList userName="ユーザー名" />
+      <View style={styles.container}>
+        <View>
+          <Card>
+            <CardHeader title={`参加者：${groupMemberNum}人`} />
+            <View style={styles.cardChildren}>
+              <UserList userName="ユーザー名" youBadge={true} />
+              <UserList userName="ユーザー名" />
+              <UserList userName="ユーザー名" />
+            </View>
+          </Card>
         </View>
-      </Card>
-      <Button onPress={handlePress}>
-        <Text>ゲームスタート画面に遷移する</Text>
-      </Button>
-      <Button onPress={roomOut}>
-        <Text>ルームから出る</Text>
-      </Button>
+        <View style={styles.buttonContainer}>
+          <Button onPress={handlePress} text='ゲーム開始' />
+          <Button onPress={roomOut} text='ルームから出る' />
+        </View>
+      </View>
     </ScreenContainer>
   )
 }
@@ -47,5 +49,11 @@ const styles = StyleSheet.create({
   cardChildren: {
     margin: 16,
     gap: 10,
-  }
+  },
+  container: {
+    gap: 20,
+  },
+  buttonContainer: {
+    gap: 10,
+  },
 });

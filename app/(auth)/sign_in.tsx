@@ -76,18 +76,12 @@ export default function SignIn() {
           </View>
         </View>
         <View style={styles.buttonContainer}>
-          <Button onPress={onLoginPress}>
-            <Text>ログイン</Text>
-          </Button>
+          <Button onPress={onLoginPress} text='ログイン' />
 
-          <Button onPress={onSignUpPress}>
-            <Text>新規登録</Text>
-          </Button>
+          <Button onPress={onSignUpPress} text='新規登録' />
         </View>
       </CardOnHeader>
-      <Button onPress={handlePress}>
-        <Text>ルーム選択画面に移動（認証なしデモ）</Text>
-      </Button>
+      <Button onPress={handlePress} text='ルーム選択画面に移動（認証なしデモ）' />
     </SafeAreaView>
   );
 }
