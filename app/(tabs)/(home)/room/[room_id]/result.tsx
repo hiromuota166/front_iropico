@@ -7,7 +7,7 @@ import ScreenContainer from "@/components/ScreenContainer";
 import { Colors } from "@/constants/Colors";
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from "expo-router";
-import { Dimensions, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Dimensions, FlatList, ScrollView, StyleSheet, Text, View } from "react-native";
 
 const { width: screenWidth } = Dimensions.get('window');
 
@@ -53,16 +53,29 @@ export default function Result() {
             colorCode={colorCode}
           />
           <CardOnHeader title='みんなの撮影結果'>
-            <></>
+            <FlatList
+              horizontal
+              pagingEnabled
+              showsHorizontalScrollIndicator={false}
+              style={styles.scrollView}
+              data={rankingData}
+              renderItem={({ item }) => (
+                <View style={styles.imageContainer}>
+                  <Text>{item.name}</Text>
+                  <Text>スコア：{item.score}</Text>
+                </View>
+              )}
+              keyExtractor={(item) => item.userId.toString()}
+            />
           </CardOnHeader>
           <Button text="ゲームスタート" onPress={handlePress} />
           <Button text="ゲーム終了" onPress={roomOut} />
         </View>
       </ScreenContainer>
     </ScrollView>
-
   )
 }
+
 const styles = StyleSheet.create({
   cardContainer: {
     backgroundColor: Colors.winnerCard,
@@ -73,4 +86,11 @@ const styles = StyleSheet.create({
   container: {
     gap: 20,
   },
+  scrollView: {
+  },
+  imageContainer: {
+    backgroundColor: Colors.inputPlaceholder,
+    width: screenWidth - 66, // padding(16) * 4 + border(1) * 4だけどこの実装はパチモンかもしれない⭐️
+    height: screenWidth,
+  }
 });
