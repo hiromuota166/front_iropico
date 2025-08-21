@@ -7,7 +7,7 @@ import ScreenContainer from "@/components/ScreenContainer";
 import { Colors } from "@/constants/Colors";
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from "expo-router";
-import { Dimensions, FlatList, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Dimensions, FlatList, Image, ScrollView, StyleSheet, Text, View } from "react-native";
 
 const { width: screenWidth } = Dimensions.get('window');
 
@@ -25,9 +25,9 @@ export default function Result() {
   };
 
   const rankingData = [
-    { userId: 101, name: "Alice", score: 95.5, photoURL: "https://example.com/photos/alice_round1.jpg" },
-    { userId: 102, name: "Bob", score: 92.0, photoURL: "https://example.com/photos/bob_round1.jpg" },
-    { userId: 103, name: "Carol", score: 88.7, photoURL: "https://example.com/photos/carol_round1.jpg" },
+    { userId: 101, name: "Alice", score: 95.5, photoURL: "https://picsum.photos/id/1018/300/200" },
+    { userId: 102, name: "Bob", score: 92.0, photoURL: "https://picsum.photos/id/1024/300/200" },
+    { userId: 103, name: "Carol", score: 88.7, photoURL: "https://picsum.photos/id/1035/300/200" },
   ];
 
   return (
@@ -61,8 +61,15 @@ export default function Result() {
               data={rankingData}
               renderItem={({ item }) => (
                 <View style={styles.imageContainer}>
-                  <Text>{item.name}</Text>
-                  <Text>スコア：{item.score}</Text>
+                  <Image source={{ uri: item.photoURL }} style={styles.image} />
+                  <View style={styles.scoreBadge}>
+                    <Text style={styles.scoreText}>{item.score}</Text>
+                  </View>
+                  <View style={styles.rankingContainer}>
+                    {item === rankingData[0] && <Text style={styles.winnerTrophy}>🏆</Text>}
+                    <Text style={styles.nameText}>{item.name}</Text>
+                    {item === rankingData[0] && <Text style={styles.winnerTag}>winner!</Text>}
+                  </View>
                 </View>
               )}
               keyExtractor={(item) => item.userId.toString()}
@@ -89,8 +96,48 @@ const styles = StyleSheet.create({
   scrollView: {
   },
   imageContainer: {
-    backgroundColor: Colors.inputPlaceholder,
     width: screenWidth - 66, // padding(16) * 4 + border(1) * 4だけどこの実装はパチモンかもしれない⭐️
     height: screenWidth,
+    padding: 16,
+    gap: 12,
+  },
+  image: {
+    flex: 1,
+    borderRadius: 14,
+    resizeMode: "cover",
+    backgroundColor: Colors.inputPlaceholder,
+  },
+  rankingContainer: {
+    flexDirection: 'row',
+    alignItems: "center",
+    justifyContent: 'center',
+    width: '100%',
+    gap: 12,
+  },
+  scoreBadge: {
+    position: 'absolute',
+    padding: 10,
+    borderRadius: 12,
+    backgroundColor: Colors.textWhite,
+    top: 24,
+    right: 24,
+  },
+  scoreText: {
+    fontWeight: "bold",
+    fontSize: 16,
+    color: Colors.textContent,
+  },
+  nameText: {
+    textAlign: 'center',
+    fontSize: 24,
+    color: Colors.textTitle,
+  },
+  winnerTag: {
+    backgroundColor: Colors.winnerTag,
+    padding: 2,
+    borderRadius: 8,
+  },
+  winnerTrophy: {
+    fontSize: 24,
   }
 });
