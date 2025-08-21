@@ -2,17 +2,20 @@ import { Button } from "@/components/Button/Button";
 import { Card } from "@/components/Card/Card";
 import { CardOnHeader } from "@/components/Card/CardOnHeader";
 import { ColorResultCard } from "@/components/Card/ColorResultCard";
+import CustomScrollView from "@/components/CustomScrollView";
+import Stars from "@/components/Icon/Stars";
 import TrophyIcon from "@/components/Icon/TrophyIcon";
 import ScreenContainer from "@/components/ScreenContainer";
 import { Colors } from "@/constants/Colors";
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from "expo-router";
-import { Dimensions, FlatList, Image, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Dimensions, FlatList, Image, StyleSheet, Text, View } from "react-native";
 
 const { width: screenWidth } = Dimensions.get('window');
 
 export default function Result() {
-  const winner = 'john doe';
+  const round = 1;
+  const winner = 'kem太郎';
   const score = 100;
   const colorName = 'ライトブルー';
   const colorCode = '#ADD8E6';
@@ -31,7 +34,7 @@ export default function Result() {
   ];
 
   return (
-    <ScrollView showsHorizontalScrollIndicator={false}>
+    <CustomScrollView>
       <ScreenContainer>
         <View style={styles.container}>
           <Card>
@@ -42,9 +45,12 @@ export default function Result() {
               style={styles.cardContainer}
             >
               <TrophyIcon />
-              <Text>{winner}</Text>
-              <Text>⭐️⭐️⭐️⭐️⭐️</Text>
-              <Text>スコア：{score}</Text>
+              <View style={styles.winnerInfo}>
+                <Text style={styles.roundText}>ラウンド{round}優勝！</Text>
+                <Text style={styles.winnerText}>{winner}</Text>
+                <Stars />
+                <Text style={styles.winnerScoreText}>スコア：{score}</Text>
+              </View>
             </LinearGradient>
           </Card>
           <ColorResultCard
@@ -57,7 +63,6 @@ export default function Result() {
               horizontal
               pagingEnabled
               showsHorizontalScrollIndicator={false}
-              style={styles.scrollView}
               data={rankingData}
               renderItem={({ item }) => (
                 <View style={styles.imageContainer}>
@@ -79,7 +84,7 @@ export default function Result() {
           <Button text="ゲーム終了" onPress={roomOut} />
         </View>
       </ScreenContainer>
-    </ScrollView>
+    </CustomScrollView>
   )
 }
 
@@ -89,11 +94,10 @@ const styles = StyleSheet.create({
     padding: 16,
     alignItems: "center",
     justifyContent: "center",
+    gap: 14,
   },
   container: {
     gap: 20,
-  },
-  scrollView: {
   },
   imageContainer: {
     width: screenWidth - 66, // padding(16) * 4 + border(1) * 4だけどこの実装はパチモンかもしれない⭐️
@@ -139,5 +143,21 @@ const styles = StyleSheet.create({
   },
   winnerTrophy: {
     fontSize: 24,
+  },
+  winnerInfo: {
+    gap: 10,
+    alignItems: "center",
+  },
+  roundText: {
+    color: Colors.roundText,
+    fontSize: 26,
+  },
+  winnerText: {
+    color: Colors.winnerText,
+    fontSize: 22,
+  },
+  winnerScoreText: {
+    color: Colors.winnerPlayerScore,
+    fontSize: 16,
   }
 });
