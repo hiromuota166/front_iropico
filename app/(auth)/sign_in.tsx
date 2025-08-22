@@ -47,11 +47,6 @@ export default function SignIn() {
       >
         <SafeAreaView style={styles.container}>
           <Stack.Screen options={{ headerShown: false }} />
-
-          <ScrollView
-            keyboardShouldPersistTaps='handled'
-            contentContainerStyle={styles.scrollContent}
-          >
             <TitleIconAndText
               title='Iropico'
               subTitle='指定された色を見つけて撮影しよう'
@@ -105,7 +100,6 @@ export default function SignIn() {
               onPress={handlePress}
               text='ルーム選択画面に移動（認証なしデモ）'
             />
-          </ScrollView>
         </SafeAreaView>
       </KeyboardAvoidingView>
     </TouchableWithoutFeedback>
