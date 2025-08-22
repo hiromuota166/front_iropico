@@ -1,12 +1,12 @@
 import { Colors } from '@/constants/Colors';
-import React, { useEffect, useRef } from 'react';
+import React, { memo, useEffect, useRef } from 'react';
 import { Animated, Easing, StyleSheet } from 'react-native';
 
 type ColorCardAnimationProps = {
   colorCode: string;
 };
 
-export const ColorCardAnimation = ({ colorCode }: ColorCardAnimationProps) => {
+const ColorCardAnimation = ({ colorCode }: ColorCardAnimationProps) => {
   const y = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
@@ -52,3 +52,5 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
   },
 });
+
+export default memo(ColorCardAnimation);

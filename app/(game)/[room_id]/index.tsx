@@ -1,4 +1,4 @@
-import { ColorCardAnimation } from "@/components/Animation/ColorCardAnimation";
+import ColorCardAnimation from "@/components/Animation/ColorCardAnimation";
 import { Button } from "@/components/Button/Button";
 import { Card } from "@/components/Card/Card";
 import ScreenContainer from "@/components/ScreenContainer";
