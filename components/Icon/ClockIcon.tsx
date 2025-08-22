@@ -29,7 +29,7 @@ function ClockIcon() {
   );
 }
 
-function ClockIconWithSize({ size = 35 }) {
+function ClockIconWithSize({ size = 35 }: { size: number }) {
   return (
     <RoundIcon>
       <MaterialIcons name="timer" size={size} color={Colors.textWhite} />
