@@ -34,4 +34,9 @@ export const Colors = {
   timerProgress: "#030213",
   shadowColor: "#333",
   notification: "#FF0015",
+  winnerTag: "#FEF9C2",
+  roundText: "#894B00",
+  winnerText: "#894B00",
+  winnerPlayerScore: "#D08700",
+  star: "#FCC800",
 };
