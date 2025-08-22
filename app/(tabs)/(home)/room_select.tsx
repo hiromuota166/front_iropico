@@ -15,25 +15,33 @@ import { Alert, Keyboard, KeyboardAvoidingView, Platform, Pressable, StyleSheet,
 export default function RoomTop() {
   const router = useRouter();
   const [tab, setTab] = useState<"create" | "join">("create");
-  const [loading, setLoading] = useState(false);
   const [joinCode, setJoinCode] = useState("");
+  const [roomCreationLoading, setRoomCreationLoading] = useState(false);
+  const { user, loading: authLoading } = useAuth();
 
   const goRoom = () => router.push("/room/1");
   const logout = () => {
     handleSignOut();
     router.replace("/(auth)/sign_in");
   };
+
   const goCreateGroup = async () => {
-    setLoading(true);
-    const roomData = await createRoom(1);
+    if (!user || authLoading) {
+      Alert.alert("エラー", "ユーザー情報が取得できません。ログイン状態を確認してください。");
+      return;
+    }
+
+    setRoomCreationLoading(true);
+    const roomData = await createRoom(user.uid);
     if (roomData) {
       console.log("Room created successfully:", roomData);
       router.push(`/room/${roomData.room_id}`);
     } else {
-      Alert.alert("Error", "ルーム作成に失敗しました。");
+      Alert.alert("エラー", "ルーム作成に失敗しました。");
     }
-    setLoading(false);
+    setRoomCreationLoading(false);
   };
+
   const joinGroup = () => joinCode.trim() && router.push(`/room/${joinCode.trim()}`);
 
   const onBackgroundPress = () => {
@@ -87,3 +95,7 @@ const styles = StyleSheet.create({
   container: { gap: 20 },
   buttonRow: { gap: 10, marginTop: 4 },
 });
+function useAuth(): { user: any; loading: any; } {
+  throw new Error("Function not implemented.");
+}
+
