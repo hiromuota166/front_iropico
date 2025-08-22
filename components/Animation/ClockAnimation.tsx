@@ -1,23 +1,43 @@
 import { ClockIconWithSize } from '@/components/Icon/ClockIcon';
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Animated, Easing } from 'react-native';
 
 export const ClockAnimation = () => {
-  const rotate = new Animated.Value(0);
+  const rotate = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    const rotateToHalf = Animated.timing(rotate, {
+      toValue: 0.5,
+      duration: 1000,
+      easing: Easing.linear,
+      useNativeDriver: true,
+    });
+
+    const rotateToFull = Animated.timing(rotate, {
+      toValue: 1,
+      duration: 1000,
+      easing: Easing.linear,
+      useNativeDriver: true,
+    });
+
+    const animationSequence = Animated.sequence([
+      rotateToHalf,
+      rotateToFull,
+    ]);
+
+    const animationLoop = Animated.loop(animationSequence);
+
+    animationLoop.start();
+
+    return () => {
+      animationLoop.stop();
+    };
+  }, [rotate]);
 
   const rotateData = rotate.interpolate({
     inputRange: [0, 1],
     outputRange: ['0deg', '360deg'],
   });
-
-  Animated.loop(
-    Animated.timing(rotate, {
-      toValue: 1,
-      duration: 2000,
-      easing: Easing.linear,
-      useNativeDriver: true,
-    })
-  ).start();
 
   return (
     <Animated.View
