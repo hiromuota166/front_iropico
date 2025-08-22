@@ -1,19 +1,21 @@
-import React, { useState } from "react";
-import {StyleSheet, View, Keyboard, Pressable, Platform, KeyboardAvoidingView,} from "react-native";
-import { useRouter } from "expo-router";
 import { Button } from "@/components/Button/Button";
 import { Card } from "@/components/Card/Card";
-import ScreenContainer from "@/components/ScreenContainer";
-import { TitleIconAndText } from "@/components/TitleIconAndText";
 import UserGroupIcon from "@/components/Icon/UserGroupIcon";
-import SegmentedTabs from "@/components/RoomJoin/SegmentedTabs";
 import CreateGroupCard from "@/components/RoomJoin/CreateGroupCard";
 import JoinGroupCard from "@/components/RoomJoin/JoinGroupCard";
+import SegmentedTabs from "@/components/RoomJoin/SegmentedTabs";
+import ScreenContainer from "@/components/ScreenContainer";
+import { TitleIconAndText } from "@/components/TitleIconAndText";
+import { createRoom } from "@/lib/api";
 import { handleSignOut } from "@/lib/auth";
+import { useRouter } from "expo-router";
+import React, { useState } from "react";
+import { Alert, Keyboard, KeyboardAvoidingView, Platform, Pressable, StyleSheet, View, } from "react-native";
 
 export default function RoomTop() {
   const router = useRouter();
   const [tab, setTab] = useState<"create" | "join">("create");
+  const [loading, setLoading] = useState(false);
   const [joinCode, setJoinCode] = useState("");
 
   const goRoom = () => router.push("/room/1");
@@ -21,7 +23,17 @@ export default function RoomTop() {
     handleSignOut();
     router.replace("/(auth)/sign_in");
   };
-  const goCreateGroup = () => router.push("/group/create");
+  const goCreateGroup = async () => {
+    setLoading(true);
+    const roomData = await createRoom(1);
+    if (roomData) {
+      console.log("Room created successfully:", roomData);
+      router.push(`/room/${roomData.room_id}`);
+    } else {
+      Alert.alert("Error", "ルーム作成に失敗しました。");
+    }
+    setLoading(false);
+  };
   const joinGroup = () => joinCode.trim() && router.push(`/room/${joinCode.trim()}`);
 
   const onBackgroundPress = () => {
@@ -50,7 +62,7 @@ export default function RoomTop() {
               <SegmentedTabs value={tab} onChange={setTab} />
 
               {tab === "create" ? (
-                <CreateGroupCard onCreate={goCreateGroup} />
+                <CreateGroupCard onCreate={goCreateGroup} disabled={false} />
               ) : (
                 <JoinGroupCard
                   code={joinCode}
