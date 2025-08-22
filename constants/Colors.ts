@@ -34,6 +34,7 @@ export const Colors = {
   timerProgress: "#030213",
   shadowColor: "#333",
   notification: "#FF0015",
+  plusButton: "#00A6F4",
   winnerTag: "#FEF9C2",
   roundText: "#894B00",
   winnerText: "#894B00",

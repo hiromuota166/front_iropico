@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, ViewStyle, TextStyle } from 'react-native';
+import { Colors } from "@/constants/Colors";
 
 type YouBadgeProps = {
   style?: ViewStyle;
@@ -12,8 +13,8 @@ type YouBadgeProps = {
 export default function YouBadge({
   style,
   textStyle,
-  bgColor = '#B8E6FE',
-  color = '#00598A',
+  bgColor = Colors.border,
+  color = Colors.textTitle,
   compact = false,
 }: YouBadgeProps) {
   const vPad = compact ? 4 : 6;
