@@ -25,12 +25,6 @@ export const ColorResultCard: React.FC<ColorResultCardProps> = ({ title, colorNa
 );
 
 const styles = StyleSheet.create({
-  cardContainer: {
-    backgroundColor: Colors.winnerCard,
-    padding: 16,
-    alignItems: "center",
-    justifyContent: "center",
-  },
   container: {
     gap: 20,
   },
