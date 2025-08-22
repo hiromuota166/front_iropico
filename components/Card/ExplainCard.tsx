@@ -13,8 +13,8 @@ export default function ExplainCard({ title, text }: ExplainCardProps) {
     <BackgroundBlue style={styles.background}>
       <Text style={styles.explainTitle}>{title}</Text>
       <View style={styles.container}>
-        {text.map((item, index) => (
-          <Text key={index} style={styles.explainText}>・{item}</Text>
+        {text.map((item) => (
+          <Text key={item} style={styles.explainText}>・{item}</Text>
         ))}
       </View>
     </BackgroundBlue>
