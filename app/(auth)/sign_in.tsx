@@ -7,7 +7,7 @@ import { Colors } from "@/constants/Colors";
 import { handleSignIn, handleSignUp } from "@/lib/auth";
 import { Stack, useRouter } from "expo-router";
 import React, { useState } from "react";
-import {StyleSheet, Text, View, Keyboard, TouchableWithoutFeedback, Platform, KeyboardAvoidingView, ScrollView,} from "react-native";
+import { Keyboard, KeyboardAvoidingView, Platform, StyleSheet, Text, TouchableWithoutFeedback, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function SignIn() {
@@ -114,6 +114,10 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
+    alignItems:'center',
+    justifyContent:'center',
+    marginLeft: 20,
+    marginRight: 20,
   },
   scrollContent: {
     padding: 20,
