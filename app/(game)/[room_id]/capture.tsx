@@ -1,4 +1,4 @@
-import { ClockAnimation } from "@/components/Animation/ClockAnimation";
+import ClockAnimation from "@/components/Animation/ClockAnimation";
 import { Button } from "@/components/Button/Button";
 import { Card } from "@/components/Card/Card";
 import ExplainCard from "@/components/Card/ExplainCard";

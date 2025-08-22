@@ -1,8 +1,8 @@
 import { ClockIconWithSize } from '@/components/Icon/ClockIcon';
-import React, { useEffect, useRef } from 'react';
+import React, { memo, useEffect, useRef } from 'react';
 import { Animated, Easing } from 'react-native';
 
-export const ClockAnimation = () => {
+const ClockAnimation = () => {
   const rotate = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
@@ -40,10 +40,10 @@ export const ClockAnimation = () => {
   });
 
   return (
-    <Animated.View
-      style={[{ transform: [{ rotate: rotateData }] }]}
-    >
+    <Animated.View style={{ transform: [{ rotate: rotateData }] }}>
       <ClockIconWithSize size={35} />
     </Animated.View>
   );
 };
+
+export default memo(ClockAnimation);
