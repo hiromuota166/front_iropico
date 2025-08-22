@@ -34,5 +34,5 @@ export const Colors = {
   timerProgress: "#030213",
   shadowColor: "#333",
   notification: "#FF0015",
-  plsubutton: "#00A6F4"
+  plusButton: "#00A6F4"
 };

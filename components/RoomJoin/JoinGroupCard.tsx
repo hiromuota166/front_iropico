@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
   sharp: {
     fontSize: 50,
     fontWeight: "700",
-    color: (Colors as any).plsubutton ?? Colors.textContent,
+    color: Colors.plusButton ?? Colors.textContent,
   },
 
   title: {

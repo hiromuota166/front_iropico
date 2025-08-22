@@ -44,9 +44,7 @@ const styles = StyleSheet.create({
   segment: {
     flexDirection: "row",
     backgroundColor: Colors.orderCardBackground,
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: Colors.border,
+    borderRadius: 0,
     padding: 4,
     marginBottom: 12,
   },

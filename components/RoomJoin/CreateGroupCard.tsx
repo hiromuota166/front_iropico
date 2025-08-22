@@ -30,15 +30,14 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     paddingHorizontal: 12,
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
   },
 
   plus: {
     fontSize: 50,
     fontWeight: "700",
-    color: Colors.plsubutton,
+    color: Colors.plusButton,
     paddingHorizontal: 12,
-    alignItems: "center",
   },
 
   title: {
