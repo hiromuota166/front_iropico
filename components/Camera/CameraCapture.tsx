@@ -1,15 +1,15 @@
 import { Feather } from '@expo/vector-icons';
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, View, Button } from 'react-native';
+import { Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useTakePhoto } from '../../hooks/useTakePhoto';
 import { Card } from '../Card/Card';
 
-type Props = {
+type CameraCaptureProps = {
   onCaptured: (args: { previewUri: string; base64: string }) => void;
 };
 
-export const CameraCapture: React.FC<Props> = ({ onCaptured }) => {
+export const CameraCapture: React.FC<CameraCaptureProps> = ({ onCaptured }) => {
   const [permission, requestPermission] = useCameraPermissions();
   const { camRef, takeAndPrepare } = useTakePhoto();
 
