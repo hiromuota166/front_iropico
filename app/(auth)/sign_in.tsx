@@ -14,28 +14,28 @@ export default function SignIn() {
   const NICK_LIMIT = 20;
 
   const router = useRouter();
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [nickName, setNickName] = useState<string>("");
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [nickName, setNickName] = useState<string>('');
 
   const nickCount = [...nickName].length;
   const over = nickCount > NICK_LIMIT;
 
   const handlePress = () => {
-    router.push("/room_select");
+    router.push('/room_select');
   };
 
   const onLoginPress = async () => {
     const user = await handleSignIn(email, password);
     if (user) {
-      router.push("/room_select");
+      router.push('/room_select');
     }
   };
 
   const onSignUpPress = async () => {
     const user = await handleSignUp(email, password);
     if (user) {
-      router.push("/room_select");
+      router.push('/room_select');
     }
   };
 
@@ -43,44 +43,44 @@ export default function SignIn() {
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <KeyboardAvoidingView
         style={{ flex: 1 }}
-        behavior={Platform.OS === "ios" ? "padding" : undefined}
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
       >
         <SafeAreaView style={styles.container}>
           <Stack.Screen options={{ headerShown: false }} />
 
           <ScrollView
-            keyboardShouldPersistTaps="handled"
+            keyboardShouldPersistTaps='handled'
             contentContainerStyle={styles.scrollContent}
           >
             <TitleIconAndText
-              title="Iropico"
-              subTitle="指定された色を見つけて撮影しよう"
+              title='Iropico'
+              subTitle='指定された色を見つけて撮影しよう'
             >
               <ColorPaletteIcon />
             </TitleIconAndText>
 
             <CardOnHeader
-              title="アカウント情報"
-              subTitle="ログインまたは新規登録してください"
+              title='アカウント情報'
+              subTitle='ログインまたは新規登録してください'
               loginHeader
             >
               <View style={styles.inputContainer}>
                 <FormInput
-                  placeholder="メールアドレス"
-                  keyboardType="email-address"
-                  autoCapitalize="none"
+                  placeholder='メールアドレス'
+                  keyboardType='email-address'
+                  autoCapitalize='none'
                   value={email}
                   onChangeText={setEmail}
                 />
                 <FormInput
-                  placeholder="パスワード"
+                  placeholder='パスワード'
                   secureTextEntry
                   value={password}
                   onChangeText={setPassword}
                 />
                 <View>
                   <FormInput
-                    placeholder="ニックネームを入力..."
+                    placeholder='ニックネームを入力...'
                     centerText
                     value={nickName}
                     onChangeText={setNickName}
@@ -96,14 +96,14 @@ export default function SignIn() {
               </View>
 
               <View style={styles.buttonContainer}>
-                <Button onPress={onLoginPress} text="ログイン" />
-                <Button onPress={onSignUpPress} text="新規登録" />
+                <Button onPress={onLoginPress} text='ログイン' />
+                <Button onPress={onSignUpPress} text='新規登録' />
               </View>
             </CardOnHeader>
 
             <Button
               onPress={handlePress}
-              text="ルーム選択画面に移動（認証なしデモ）"
+              text='ルーム選択画面に移動（認証なしデモ）'
             />
           </ScrollView>
         </SafeAreaView>
