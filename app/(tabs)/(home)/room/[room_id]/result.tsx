@@ -12,6 +12,7 @@ import { useRouter } from "expo-router";
 import { Dimensions, FlatList, Image, StyleSheet, Text, View } from "react-native";
 
 const { width: screenWidth } = Dimensions.get('window');
+const CONTAINER_PADDING = 66;
 
 export default function Result() {
   const round = 1;
@@ -100,7 +101,7 @@ const styles = StyleSheet.create({
     gap: 20,
   },
   imageContainer: {
-    width: screenWidth - 66, // padding(16) * 4 + border(1) * 4だけどこの実装はパチモンかもしれない⭐️
+    width: screenWidth - CONTAINER_PADDING, // padding(16) * 4 + border(1) * 4だけどこの実装はパチモンかもしれない⭐️
     height: screenWidth,
     padding: 16,
     gap: 12,
