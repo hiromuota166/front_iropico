@@ -3,7 +3,6 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
-
 type StarsProps = {
   size?: number;
 };
@@ -30,4 +29,4 @@ const styles = StyleSheet.create({
   star: {
     color: Colors.star,
   },
-})
+});
