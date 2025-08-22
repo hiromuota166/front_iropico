@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet, TextInput } from "react-native";
+import { View, Text, StyleSheet, TextInput, Keyboard, TouchableWithoutFeedback } from "react-native";
 import { Button } from "@/components/Button/Button";
 import { Colors } from "@/constants/Colors";
 
@@ -11,22 +11,24 @@ type Props = {
 
 export default function JoinGroupCard({ code, onChangeCode, onJoin }: Props) {
   return (
-    <View style={styles.body}>
-      <View style={styles.textBox}>
-        <Text style={styles.sharp}>＃</Text>
-        <Text style={styles.title}>グループに参加</Text>
-        <Text style={styles.desc}>友達から受け取ったコードを入力してください</Text>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+      <View style={styles.body}>
+        <View style={styles.textBox}>
+          <Text style={styles.sharp}>＃</Text>
+          <Text style={styles.title}>グループに参加</Text>
+          <Text style={styles.desc}>友達から受け取ったコードを入力してください</Text>
+        </View>
+        
+        <TextInput
+          value={code}
+          onChangeText={onChangeCode}
+          placeholder="グループコードを入力…"
+          placeholderTextColor={Colors.inputPlaceholder}
+          style={styles.input}
+        />
+        <Button onPress={onJoin} text="参加する" disabled={!code.trim()} />
       </View>
-
-      <TextInput
-        value={code}
-        onChangeText={onChangeCode}
-        placeholder="グループコードを入力…"
-        placeholderTextColor={Colors.inputPlaceholder}
-        style={styles.input}
-      />
-      <Button onPress={onJoin} text="参加する" disabled={!code.trim()} />
-    </View>
+    </TouchableWithoutFeedback>
   );
 }
 
