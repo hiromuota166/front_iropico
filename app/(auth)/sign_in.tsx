@@ -7,8 +7,8 @@ import { Colors } from "@/constants/Colors";
 import { handleSignIn, handleSignUp } from "@/lib/auth";
 import { Stack, useRouter } from "expo-router";
 import React, { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { Keyboard, KeyboardAvoidingView, Platform, StyleSheet, Text, TouchableWithoutFeedback, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function SignIn() {
   const NICK_LIMIT = 20;
@@ -22,67 +22,87 @@ export default function SignIn() {
   const over = nickCount > NICK_LIMIT;
 
   const handlePress = () => {
-    router.push("/room_select");
+    router.push('/room_select');
   };
 
   const onLoginPress = async () => {
     const user = await handleSignIn(email, password);
     if (user) {
-      router.push("/room_select");
+      router.push('/room_select');
     }
   };
 
   const onSignUpPress = async () => {
     const user = await handleSignUp(email, password);
     if (user) {
-      router.push("/room_select");
+      router.push('/room_select');
     }
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Stack.Screen options={{ headerShown: false }} />
-      <TitleIconAndText title="Iropico" subTitle="指定された色を見つけて撮影しよう">
-        <ColorPaletteIcon />
-      </TitleIconAndText>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      >
+        <SafeAreaView style={styles.container}>
+          <Stack.Screen options={{ headerShown: false }} />
+            <TitleIconAndText
+              title='Iropico'
+              subTitle='指定された色を見つけて撮影しよう'
+            >
+              <ColorPaletteIcon />
+            </TitleIconAndText>
 
-      <CardOnHeader title="アカウント情報" subTitle="ログインまたは新規登録してください" loginHeader>
-        <View style={styles.inputContainer}>
-          <FormInput
-            placeholder="メールアドレス"
-            keyboardType="email-address"
-            autoCapitalize="none"
-            value={email}
-            onChangeText={setEmail}
-          />
-          <FormInput
-            placeholder="パスワード"
-            secureTextEntry
-            value={password}
-            onChangeText={setPassword}
-          />
-          <View>
-            <FormInput
-              placeholder="ニックネームを入力..."
-              centerText
-              value={nickName}
-              onChangeText={setNickName}
+            <CardOnHeader
+              title='アカウント情報'
+              subTitle='ログインまたは新規登録してください'
+              loginHeader
+            >
+              <View style={styles.inputContainer}>
+                <FormInput
+                  placeholder='メールアドレス'
+                  keyboardType='email-address'
+                  autoCapitalize='none'
+                  value={email}
+                  onChangeText={setEmail}
+                />
+                <FormInput
+                  placeholder='パスワード'
+                  secureTextEntry
+                  value={password}
+                  onChangeText={setPassword}
+                />
+                <View>
+                  <FormInput
+                    placeholder='ニックネームを入力...'
+                    centerText
+                    value={nickName}
+                    onChangeText={setNickName}
+                  />
+                  <View style={styles.centerAlign}>
+                    <Text
+                      style={[styles.counterText, over && styles.counterTextOver]}
+                    >
+                      {nickCount}/{NICK_LIMIT}文字以内
+                    </Text>
+                  </View>
+                </View>
+              </View>
+
+              <View style={styles.buttonContainer}>
+                <Button onPress={onLoginPress} text='ログイン' />
+                <Button onPress={onSignUpPress} text='新規登録' />
+              </View>
+            </CardOnHeader>
+
+            <Button
+              onPress={handlePress}
+              text='ルーム選択画面に移動（認証なしデモ）'
             />
-            <View style={styles.centerAlign}>
-              <Text style={[styles.counterText, over && styles.counterTextOver]}>
-                {nickCount}/{NICK_LIMIT}文字以内
-              </Text>
-            </View>
-          </View>
-        </View>
-        <View style={styles.buttonContainer}>
-          <Button onPress={onLoginPress} text='ログイン' />
-
-          <Button onPress={onSignUpPress} text='新規登録' />
-        </View>
-      </CardOnHeader>
-      <Button onPress={handlePress} text='ルーム選択画面に移動（認証なしデモ）' />
-    </SafeAreaView>
+        </SafeAreaView>
+      </KeyboardAvoidingView>
+    </TouchableWithoutFeedback>
   );
 }
 
@@ -94,9 +114,15 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
+    alignItems:'center',
+    justifyContent:'center',
+    marginLeft: 20,
+    marginRight: 20,
+  },
+  scrollContent: {
     padding: 20,
     justifyContent: 'center',
-    alignItems: 'center',
+    flexGrow: 1,
   },
   title: {
     fontSize: 24,
