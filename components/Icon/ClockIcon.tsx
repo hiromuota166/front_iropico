@@ -1,9 +1,10 @@
-import React from 'react';
-import RoundIcon from './RoundIcon';
-import Svg, { Circle, Line, Rect } from 'react-native-svg';
 import { Colors } from '@/constants/Colors';
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import React from 'react';
+import Svg, { Circle, Line, Rect } from 'react-native-svg';
+import RoundIcon from './RoundIcon';
 
-export default function ClockIcon() {
+function ClockIcon() {
   return (
     <RoundIcon>
       <Svg width={24} height={24} viewBox="0 0 24 24">
@@ -27,3 +28,14 @@ export default function ClockIcon() {
     </RoundIcon>
   );
 }
+
+function ClockIconWithSize({ size = 35 }) {
+  return (
+    <RoundIcon>
+      <MaterialIcons name="timer" size={size} color={Colors.textWhite} />
+    </RoundIcon>
+  );
+}
+
+export { ClockIcon, ClockIconWithSize };
+
