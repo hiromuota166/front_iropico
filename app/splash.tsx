@@ -46,15 +46,14 @@ export default function IconOnlyScreen() {
     return () => loop.stop();
   }, [translateY, scale]);
 
-  // --- ロード中の3段階ドット ---
   const [step, setStep] = useState<1 | 2 | 3>(1);
   useEffect(() => {
     const id = setInterval(() => {
       setStep((s) => (s === 3 ? 1 : (s + 1) as 1 | 2 | 3));
-    }, 500); // 0.5秒ごとに切替
+    }, 350); // 0.5秒ごとに切替
     return () => clearInterval(id);
   }, []);
-  const DOTS = ["", " .", " . .", " . . ."]; // indexは step を使う
+  const DOTS = ["", " .", " . .", " . . ."];
 
   return (
     <View style={styles.container}>
@@ -79,6 +78,6 @@ const styles = StyleSheet.create({
   loadingText: {
     marginTop: 14,
     fontSize: 16,
-    color: "#374151", // お好みで
+    color: "#374151",
   },
 });
