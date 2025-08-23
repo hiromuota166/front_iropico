@@ -9,6 +9,7 @@ import { TitleIconAndText } from "@/components/TitleIconAndText";
 import { useWebSocket } from "@/hooks/useWebSocket";
 import { createRoom, joinRoom } from "@/lib/api";
 import { handleSignOut } from "@/lib/auth";
+import { useGroupCodeStore } from "@/store/useStore";
 import { getAuth } from "@firebase/auth";
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
@@ -19,7 +20,7 @@ export default function RoomTop() {
   const [tab, setTab] = useState<"create" | "join">("create");
   const [joinCode, setJoinCode] = useState("");
   const [roomCreationLoading, setRoomCreationLoading] = useState(false);
-  const { messages, isConnected, connect, disconnect } = useWebSocket();
+  const { isConnected, connect, disconnect } = useWebSocket();
   const auth = getAuth();
 
   const goRoom = () => router.push("/room/1");
@@ -42,6 +43,7 @@ export default function RoomTop() {
 
     setRoomCreationLoading(true);
     const roomData: { room_id: string } | null = await createRoom(userId);
+    useGroupCodeStore.setState({ code: joinCode.trim() });
     if (roomData) {
       // 接続
       const endpoint = `/ws/rooms/${roomData.room_id}?user_id=${userId}&uuid=a`;
@@ -65,9 +67,10 @@ export default function RoomTop() {
 
     try {
       const result = await joinRoom(joinCode.trim(), userId);
+      useGroupCodeStore.setState({ code: joinCode.trim() });
       if (result) {
         // 接続
-        const endpoint = `/ws/rooms/${result.room_id}?user_id=${userId}&uuid=a`;
+        const endpoint = `/ws/rooms/${result.room_id}?user_id=${userId}&uuid=${userId}`;
         connect(endpoint);
 
         router.push(`/room/${joinCode.trim()}`);

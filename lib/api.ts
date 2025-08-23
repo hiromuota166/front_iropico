@@ -2,7 +2,8 @@ import { Alert } from "react-native";
 // バックエンドでは uid を uuid と名前付けしていることに注意
 // uuid は string 型で UUID 型でもない
 
-const API_BASE_URL = process.env.EXPO_PUBLIC_DB_URL || "http://172.16.5.7:3000";
+const API_BASE_URL =
+  process.env.EXPO_PUBLIC_DB_URL || "http://172.16.1.117:3000";
 
 export async function createUser(name: string, uid: string) {
   try {

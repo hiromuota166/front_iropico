@@ -2,6 +2,7 @@ import ColorCardAnimation from "@/components/Animation/ColorCardAnimation";
 import { Card } from "@/components/Card/Card";
 import ScreenContainer from "@/components/ScreenContainer";
 import { Colors } from "@/constants/Colors";
+import { useGroupCodeStore } from "@/store/useStore";
 import { Stack, useRouter } from "expo-router";
 import { useEffect } from "react";
 import { StyleSheet, Text, View } from "react-native";
@@ -11,7 +12,7 @@ export default function GameTop() {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      router.push("/(game)/1/countdown");
+      router.push(`/(game)/${useGroupCodeStore.getState().code}/countdown`);
     }, 3000);
     return () => clearTimeout(timer);
   }, [router]);
