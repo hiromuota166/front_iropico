@@ -1,20 +1,54 @@
-import { Button } from "@/components/Button/Button";
-import { PhotoTaker } from '@/components/Camera/PhotoTaker';
-import ScreenContainer from "@/components/ScreenContainer";
+import React from "react";
+import { View, StyleSheet } from "react-native";
 import { Stack, useRouter } from "expo-router";
-import { Text } from "react-native";
+import ScreenContainer from "@/components/ScreenContainer";
+import { Button } from "@/components/Button/Button";
+import ShutterButton from "@/components/Camera/ShutterButton";
+import { PhotoTaker, PhotoTakerHandle } from "@/components/Camera/PhotoTaker";
 
 export default function Countdown() {
   const router = useRouter();
+  const photoRef = React.useRef<PhotoTakerHandle>(null);
+
   const handlePress = () => {
     router.push("/(game)/1/capture");
   };
+
+  async function handleShutter() {
+    await photoRef.current?.shoot();
+  }
+
   return (
     <ScreenContainer>
       <Stack.Screen options={{ headerShown: false }} />
-      <Text>カウント画面。多分ここでユーザーに写真撮ってもらうイメージになるのかな？</Text>
-      <Button onPress={handlePress} text='次へ' />
-      <PhotoTaker themeHex="#bce2e8" />
+
+      <Button onPress={handlePress} text="この色を探してください" />
+      
+      <View style={styles.cameraArea}>
+        <PhotoTaker ref={photoRef} themeHex="#bce2e8" />
+      </View>
+
+      <View style={styles.bottomBar}>
+        <ShutterButton onPress={handleShutter} />
+      </View>
     </ScreenContainer>
-  )
+  );
 }
+
+const BAR_HEIGHT = 110;
+
+const styles = StyleSheet.create({
+  cameraArea: {
+    flex: 2,
+    borderRadius: 30,
+    overflow: "hidden",
+    marginTop: 20,
+    marginBottom: 30,
+  },
+  bottomBar: {
+    height: BAR_HEIGHT,
+    alignItems: "center",
+    justifyContent: "center",
+    paddingBottom: 12,
+  },
+});
