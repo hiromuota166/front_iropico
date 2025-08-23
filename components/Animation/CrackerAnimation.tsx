@@ -7,9 +7,8 @@ export default function ConfettiCelebration() {
   // 画面サイズ
   const { width, height } = useWindowDimensions();
 
-  // ランチャー参照（型が提供されていない場合があるので any でOK）
-  const leftRef = useRef<any>(null);
-  const rightRef = useRef<any>(null);
+  const leftRef = useRef<unknown>(null);
+  const rightRef = useRef<unknown>(null);
 
   // 固定値（必要ならここを書き換える）
   const COUNT = 60;          // 紙ふぶき枚数
