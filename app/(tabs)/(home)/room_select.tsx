@@ -6,8 +6,10 @@ import JoinGroupCard from "@/components/RoomJoin/JoinGroupCard";
 import SegmentedTabs from "@/components/RoomJoin/SegmentedTabs";
 import ScreenContainer from "@/components/ScreenContainer";
 import { TitleIconAndText } from "@/components/TitleIconAndText";
-import { createRoom } from "@/lib/api";
+import { useWebSocket } from "@/hooks/useWebSocket";
+import { createRoom, joinRoom } from "@/lib/api";
 import { handleSignOut } from "@/lib/auth";
+import { getAuth } from "@firebase/auth";
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
 import { Alert, Keyboard, KeyboardAvoidingView, Platform, Pressable, StyleSheet, View, } from "react-native";
@@ -17,7 +19,8 @@ export default function RoomTop() {
   const [tab, setTab] = useState<"create" | "join">("create");
   const [joinCode, setJoinCode] = useState("");
   const [roomCreationLoading, setRoomCreationLoading] = useState(false);
-  const { user, loading: authLoading } = useAuth();
+  const { messages, isConnected, connect, disconnect } = useWebSocket();
+  const auth = getAuth();
 
   const goRoom = () => router.push("/room/1");
   const logout = () => {
@@ -25,16 +28,25 @@ export default function RoomTop() {
     router.replace("/(auth)/sign_in");
   };
 
+  const getUserId = () => {
+    const user = auth.currentUser;
+    return user ? user.uid : null;
+  };
+
   const goCreateGroup = async () => {
-    if (!user || authLoading) {
+    const userId: string = getUserId() || "";
+    if (!userId || roomCreationLoading) {
       Alert.alert("エラー", "ユーザー情報が取得できません。ログイン状態を確認してください。");
       return;
     }
 
     setRoomCreationLoading(true);
-    const roomData = await createRoom(user.uid);
+    const roomData: { room_id: string } | null = await createRoom(userId);
     if (roomData) {
-      console.log("Room created successfully:", roomData);
+      // 接続
+      const endpoint = `/ws/rooms/${roomData.room_id}?user_id=${userId}&uuid=a`;
+      connect(endpoint);
+
       router.push(`/room/${roomData.room_id}`);
     } else {
       Alert.alert("エラー", "ルーム作成に失敗しました。");
@@ -42,7 +54,33 @@ export default function RoomTop() {
     setRoomCreationLoading(false);
   };
 
-  const joinGroup = () => joinCode.trim() && router.push(`/room/${joinCode.trim()}`);
+  const joinGroup = async () => {
+    setRoomCreationLoading(true);
+    const userId: string = getUserId() || "";
+    if (!userId || !joinCode.trim()) {
+      Alert.alert("エラー", "ユーザー情報またはルームコードが不足しています。");
+      setRoomCreationLoading(false);
+      return;
+    }
+
+    try {
+      const result = await joinRoom(joinCode.trim(), userId);
+      if (result) {
+        // 接続
+        const endpoint = `/ws/rooms/${result.room_id}?user_id=${userId}&uuid=a`;
+        connect(endpoint);
+
+        router.push(`/room/${joinCode.trim()}`);
+      } else {
+        Alert.alert("エラー", "ルーム参加に失敗しました。");
+      }
+    } catch (error) {
+      console.error("Failed to join room:", error);
+      Alert.alert("エラー", "ネットワークエラーによりルーム参加に失敗しました。");
+    } finally {
+      setRoomCreationLoading(false);
+    }
+  };
 
   const onBackgroundPress = () => {
     if (Platform.OS === "web") {
@@ -95,7 +133,3 @@ const styles = StyleSheet.create({
   container: { gap: 20 },
   buttonRow: { gap: 10, marginTop: 4 },
 });
-function useAuth(): { user: any; loading: any; } {
-  throw new Error("Function not implemented.");
-}
-
