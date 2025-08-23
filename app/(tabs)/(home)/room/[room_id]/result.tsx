@@ -10,6 +10,10 @@ import { Colors } from "@/constants/Colors";
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from "expo-router";
 import { Dimensions, FlatList, Image, StyleSheet, Text, View } from "react-native";
+import CrackerAnimation from "@/components/Animation/CrackerAnimation"; 
+import { useFocusEffect } from "@react-navigation/native";
+import React from "react";
+
 
 const { width: screenWidth } = Dimensions.get('window');
 const CONTAINER_PADDING = 66;
@@ -33,6 +37,16 @@ export default function Result() {
     { userId: 102, name: "Bob", score: 92.0, photoURL: "https://picsum.photos/id/1024/300/200" },
     { userId: 103, name: "Carol", score: 88.7, photoURL: "https://picsum.photos/id/1035/300/200" },
   ];
+
+  const [fire, setFire] = React.useState(false);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      setFire(true);
+      const t = setTimeout(() => setFire(false), 3000);
+      return () => clearTimeout(t);
+    }, [])
+  );
 
   return (
     <CustomScrollView>
@@ -84,6 +98,7 @@ export default function Result() {
           <Button text="ゲームスタート" onPress={handlePress} />
           <Button text="ゲーム終了" onPress={roomOut} />
         </View>
+        {fire && <CrackerAnimation />}
       </ScreenContainer>
     </CustomScrollView>
   )
