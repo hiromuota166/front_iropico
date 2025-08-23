@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet, TextInput, Keyboard, TouchableWithoutFeedback } from "react-native";
+import { View, Text, StyleSheet, TextInput, Keyboard, Pressable, Platform } from "react-native";
 import { Button } from "@/components/Button/Button";
 import { Colors } from "@/constants/Colors";
 
@@ -10,8 +10,17 @@ type Props = {
 };
 
 export default function JoinGroupCard({ code, onChangeCode, onJoin }: Props) {
+  const handleBackgroundPress = (e: any) => {
+    if (Platform.OS === "web") {
+      const t = (e?.target as HTMLElement) ?? null;
+      if (t && t.closest('input, textarea, [contenteditable="true"], [role="textbox"]')) {
+        return;
+      }
+    }
+    Keyboard.dismiss();
+  };
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+    <Pressable onPress={handleBackgroundPress}>
       <View style={styles.body}>
         <View style={styles.textBox}>
           <Text style={styles.sharp}>＃</Text>
@@ -28,7 +37,7 @@ export default function JoinGroupCard({ code, onChangeCode, onJoin }: Props) {
         />
         <Button onPress={onJoin} text="参加する" disabled={!code.trim()} />
       </View>
-    </TouchableWithoutFeedback>
+    </Pressable>
   );
 }
 

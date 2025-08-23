@@ -7,7 +7,7 @@ import { Colors } from "@/constants/Colors";
 import { handleSignIn, handleSignUp } from "@/lib/auth";
 import { Stack, useRouter } from "expo-router";
 import React, { useState } from "react";
-import { Keyboard, KeyboardAvoidingView, Platform, StyleSheet, Text, TouchableWithoutFeedback, View } from "react-native";
+import { Keyboard, KeyboardAvoidingView, Platform, StyleSheet, Text, View, Pressable } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function SignIn() {
@@ -27,82 +27,83 @@ export default function SignIn() {
 
   const onLoginPress = async () => {
     const user = await handleSignIn(email, password);
-    if (user) {
-      router.push('/room_select');
-    }
+    if (user) router.push('/room_select');
   };
 
   const onSignUpPress = async () => {
     const user = await handleSignUp(email, password);
-    if (user) {
-      router.push('/room_select');
+    if (user) router.push('/room_select');
+  };
+  const onBackgroundPress = (e: any) => {
+    if (Platform.OS === "web") {
+      const t = (e?.target as HTMLElement) ?? null;
+      if (t && t.closest('input, textarea, [contenteditable="true"], [role="textbox"]')) return;
     }
+    Keyboard.dismiss();
   };
 
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-      <KeyboardAvoidingView
-        style={{ flex: 1 }}
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-      >
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+    >
+      <Pressable onPress={onBackgroundPress} style={{ flex: 1 }}>
         <SafeAreaView style={styles.container}>
           <Stack.Screen options={{ headerShown: false }} />
-            <TitleIconAndText
-              title='Iropico'
-              subTitle='指定された色を見つけて撮影しよう'
-            >
-              <ColorPaletteIcon />
-            </TitleIconAndText>
+          <TitleIconAndText
+            title='Iropico'
+            subTitle='指定された色を見つけて撮影しよう'
+          >
+            <ColorPaletteIcon />
+          </TitleIconAndText>
 
-            <CardOnHeader
-              title='アカウント情報'
-              subTitle='ログインまたは新規登録してください'
-              loginHeader
-            >
-              <View style={styles.inputContainer}>
+          <CardOnHeader
+            title='アカウント情報'
+            subTitle='ログインまたは新規登録してください'
+            loginHeader
+          >
+            <View style={styles.inputContainer}>
+              <FormInput
+                placeholder='メールアドレス'
+                keyboardType='email-address'
+                autoCapitalize='none'
+                value={email}
+                onChangeText={setEmail}
+              />
+              <FormInput
+                placeholder='パスワード'
+                secureTextEntry
+                value={password}
+                onChangeText={setPassword}
+              />
+              <View>
                 <FormInput
-                  placeholder='メールアドレス'
-                  keyboardType='email-address'
-                  autoCapitalize='none'
-                  value={email}
-                  onChangeText={setEmail}
+                  placeholder='ニックネームを入力...'
+                  centerText
+                  value={nickName}
+                  onChangeText={setNickName}
                 />
-                <FormInput
-                  placeholder='パスワード'
-                  secureTextEntry
-                  value={password}
-                  onChangeText={setPassword}
-                />
-                <View>
-                  <FormInput
-                    placeholder='ニックネームを入力...'
-                    centerText
-                    value={nickName}
-                    onChangeText={setNickName}
-                  />
-                  <View style={styles.centerAlign}>
-                    <Text
-                      style={[styles.counterText, over && styles.counterTextOver]}
-                    >
-                      {nickCount}/{NICK_LIMIT}文字以内
-                    </Text>
-                  </View>
+                <View style={styles.centerAlign}>
+                  <Text
+                    style={[styles.counterText, over && styles.counterTextOver]}
+                  >
+                    {nickCount}/{NICK_LIMIT}文字以内
+                  </Text>
                 </View>
               </View>
-
-              <View style={styles.buttonContainer}>
-                <Button onPress={onLoginPress} text='ログイン' />
-                <Button onPress={onSignUpPress} text='新規登録' />
-              </View>
-            </CardOnHeader>
-
-            <Button
-              onPress={handlePress}
-              text='ルーム選択画面に移動（認証なしデモ）'
-            />
+            </View>
+            <View style={styles.buttonContainer}>
+              <Button onPress={onLoginPress} text='ログイン' />
+              <Button onPress={onSignUpPress} text='新規登録' />
+            </View>
+          </CardOnHeader>
+          <Button
+            onPress={handlePress}
+            text='ルーム選択画面に移動（認証なしデモ）'
+          />
         </SafeAreaView>
-      </KeyboardAvoidingView>
-    </TouchableWithoutFeedback>
+      </Pressable>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -114,8 +115,8 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    alignItems:'center',
-    justifyContent:'center',
+    alignItems: 'center',
+    justifyContent: 'center',
     marginLeft: 20,
     marginRight: 20,
   },
