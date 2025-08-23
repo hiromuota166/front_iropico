@@ -34,10 +34,9 @@ export default function SignIn() {
     const user = await handleSignUp(email, password);
     if (user) router.push('/room_select');
   };
-  const onBackgroundPress = (e: any) => {
+  const onBackgroundPress = () => {
     if (Platform.OS === "web") {
-      const t = (e?.target as HTMLElement) ?? null;
-      if (t && t.closest('input, textarea, [contenteditable="true"], [role="textbox"]')) return;
+      return;
     }
     Keyboard.dismiss();
   };

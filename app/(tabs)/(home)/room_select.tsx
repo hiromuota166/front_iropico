@@ -24,12 +24,9 @@ export default function RoomTop() {
   const goCreateGroup = () => router.push("/group/create");
   const joinGroup = () => joinCode.trim() && router.push(`/room/${joinCode.trim()}`);
 
-  const onBackgroundPress = (e: any) => {
+  const onBackgroundPress = () => {
     if (Platform.OS === "web") {
-      const t = (e?.target as HTMLElement) ?? null;
-      if (t && t.closest('input, textarea, [contenteditable="true"], [role="textbox"]')) {
-        return;
-      }
+      return;
     }
     Keyboard.dismiss();
   };
