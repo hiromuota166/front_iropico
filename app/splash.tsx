@@ -1,8 +1,9 @@
-import React, { useEffect, useRef } from "react";
-import { View, StyleSheet, Animated, Easing } from "react-native";
+import React, { useEffect, useRef, useState } from "react";
+import { View, StyleSheet, Animated, Easing, Text } from "react-native";
 import ColorPaletteIcon from "@/components/Icon/ColorPaletteIcon";
 
 export default function IconOnlyScreen() {
+  // --- アイコンの跳ねアニメ ---
   const translateY = useRef(new Animated.Value(0)).current;
   const scale = useRef(new Animated.Value(1)).current;
 
@@ -18,7 +19,7 @@ export default function IconOnlyScreen() {
         useNativeDriver: true,
       }),
       Animated.timing(scale, {
-        toValue: 1.03, // ちょい伸びる
+        toValue: 1.03,
         duration: Math.round(period * 0.45),
         easing: Easing.out(Easing.quad),
         useNativeDriver: true,
@@ -33,7 +34,7 @@ export default function IconOnlyScreen() {
         useNativeDriver: true,
       }),
       Animated.timing(scale, {
-        toValue: 0.97, // 着地でちょい潰れる
+        toValue: 0.97,
         duration: Math.round(period * 0.55),
         easing: Easing.in(Easing.quad),
         useNativeDriver: true,
@@ -45,11 +46,25 @@ export default function IconOnlyScreen() {
     return () => loop.stop();
   }, [translateY, scale]);
 
+  // --- ロード中の3段階ドット ---
+  const [step, setStep] = useState<1 | 2 | 3>(1);
+  useEffect(() => {
+    const id = setInterval(() => {
+      setStep((s) => (s === 3 ? 1 : (s + 1) as 1 | 2 | 3));
+    }, 500); // 0.5秒ごとに切替
+    return () => clearInterval(id);
+  }, []);
+  const DOTS = ["", " .", " . .", " . . ."]; // indexは step を使う
+
   return (
     <View style={styles.container}>
       <Animated.View style={{ transform: [{ translateY }, { scale }] }}>
         <ColorPaletteIcon />
       </Animated.View>
+
+      <Text style={styles.loadingText}>
+        ロード中{DOTS[step]}
+      </Text>
     </View>
   );
 }
@@ -60,5 +75,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#ffffff",
+  },
+  loadingText: {
+    marginTop: 14,
+    fontSize: 16,
+    color: "#374151", // お好みで
   },
 });
