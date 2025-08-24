@@ -27,6 +27,7 @@ interface GroupCode {
 
 interface Name {
   userName: string;
+  setUserName: (newName: string) => void;
 }
 
 interface Score {

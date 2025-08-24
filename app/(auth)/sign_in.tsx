@@ -8,7 +8,7 @@ import { handleSignIn, handleSignUp } from "@/lib/auth";
 import { useNameStore } from "@/store/useStore";
 import { Stack, useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
-import { Keyboard, KeyboardAvoidingView, Platform, StyleSheet, Text, View, Pressable } from "react-native";
+import { Keyboard, KeyboardAvoidingView, Platform, Pressable, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import IconOnlyScreen from "../splash";
 
@@ -23,6 +23,7 @@ export default function SignIn() {
   const nickCount = [...nickName].length;
   const over = nickCount > NICK_LIMIT;
   const userName = useNameStore((state) => state.userName);
+  const setUserName = useNameStore((state) => state.setUserName);
   console.log("Current userName:", userName);
 
   const handlePress = () => {
@@ -32,6 +33,7 @@ export default function SignIn() {
 
   const onLoginPress = async () => {
     const user = await handleSignIn(email, password);
+    setUserName(nickName);
     if (user) router.push('/room_select');
   };
 
