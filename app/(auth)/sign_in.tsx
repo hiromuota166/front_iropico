@@ -5,6 +5,7 @@ import ColorPaletteIcon from "@/components/Icon/ColorPaletteIcon";
 import { TitleIconAndText } from "@/components/TitleIconAndText";
 import { Colors } from "@/constants/Colors";
 import { handleSignIn, handleSignUp } from "@/lib/auth";
+import { useNameStore } from "@/store/useStore";
 import { Stack, useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { Keyboard, KeyboardAvoidingView, Platform, StyleSheet, Text, View, Pressable } from "react-native";
@@ -21,8 +22,11 @@ export default function SignIn() {
 
   const nickCount = [...nickName].length;
   const over = nickCount > NICK_LIMIT;
+  const userName = useNameStore((state) => state.userName);
+  console.log("Current userName:", userName);
 
   const handlePress = () => {
+    console.log("Current userName:", userName);
     router.push('/room_select');
   };
 
@@ -32,6 +36,7 @@ export default function SignIn() {
   };
 
   const onSignUpPress = async () => {
+    console.log("Current userName:", userName);
     const user = await handleSignUp(email, password);
     if (user) router.push('/room_select');
   };
