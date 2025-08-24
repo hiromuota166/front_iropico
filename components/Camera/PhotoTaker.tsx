@@ -54,7 +54,6 @@ export const PhotoTaker = React.forwardRef<PhotoTakerHandle, PhotoTakerProps>(
     useEffect(() => {
       if (previewUri) {
         router.push(`/(game)/1/capture?uri=${encodeURIComponent(previewUri)}`);
-        handleCalc();
       }
     }, [previewUri, router]);
 
