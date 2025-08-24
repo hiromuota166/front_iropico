@@ -7,9 +7,10 @@ import { Colors } from "@/constants/Colors";
 import { handleSignIn, handleSignUp } from "@/lib/auth";
 import { useNameStore } from "@/store/useStore";
 import { Stack, useRouter } from "expo-router";
-import React, { useState } from "react";
-import { Keyboard, KeyboardAvoidingView, Platform, Pressable, StyleSheet, Text, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import { Keyboard, KeyboardAvoidingView, Platform, StyleSheet, Text, View, Pressable } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import IconOnlyScreen from "../splash";
 
 export default function SignIn() {
   const NICK_LIMIT = 20;
@@ -45,6 +46,24 @@ export default function SignIn() {
     }
     Keyboard.dismiss();
   };
+
+  // 画面が表示されてから5秒立つのを待つflag
+  const [isReady, setIsReady] = useState(false);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsReady(true);
+    }, 5000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (!isReady) {
+    return (
+      <>
+        <Stack.Screen options={{ headerShown: false }} />
+        <IconOnlyScreen />
+      </>
+    );
+  }
 
   return (
     <KeyboardAvoidingView
