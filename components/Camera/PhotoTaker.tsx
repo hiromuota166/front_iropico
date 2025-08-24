@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, View } from "react-native";
 import { CameraCapture, CameraCaptureHandle } from '@/components/Camera/CameraCapture';
-import { useRouter } from "expo-router";
 import { fetchScore } from '@/lib/scoreApi';
+import { useScoreStore } from '@/store/useStore';
+import { useRouter } from "expo-router";
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, View } from "react-native";
 
 export type PhotoTakerHandle = {
   shoot: () => Promise<void>;
@@ -17,19 +18,19 @@ export const PhotoTaker = React.forwardRef<PhotoTakerHandle, PhotoTakerProps>(
     const router = useRouter();
     const [previewUri, setPreviewUri] = useState<string | null>(null);
     const [imageBase64, setImageBase64] = useState<string | null>(null);
-    const [score, setScore] = useState<number | null>(null);
-    const [avgHex, setAvgHex] = useState<string>('');
     const [loading, setLoading] = useState(false);
 
     const cameraRef = React.useRef<CameraCaptureHandle>(null);
+    const score = useScoreStore((state) => state.score);
+    const setScore = useScoreStore((state) => state.setScore);
+    const avgHex = useScoreStore((state) => state.avgHex);
+    const setAvgHex = useScoreStore((state) => state.setAvgHex);
 
     const shoot = React.useCallback(async () => {
       const result = await cameraRef.current?.shoot();
       if (result && result.previewUri && result.base64) {
         setPreviewUri(result.previewUri);
         setImageBase64(result.base64);
-        setScore(null);
-        setAvgHex('');
       }
     }, []);
 
@@ -37,6 +38,7 @@ export const PhotoTaker = React.forwardRef<PhotoTakerHandle, PhotoTakerProps>(
 
     async function handleCalc() {
       if (!imageBase64) return;
+
       setLoading(true);
       try {
         const res = await fetchScore({ imageBase64, themeHex });
@@ -53,6 +55,7 @@ export const PhotoTaker = React.forwardRef<PhotoTakerHandle, PhotoTakerProps>(
 
     useEffect(() => {
       if (previewUri) {
+        handleCalc();
         router.push(`/(game)/1/capture?uri=${encodeURIComponent(previewUri)}`);
       }
     }, [previewUri, router]);

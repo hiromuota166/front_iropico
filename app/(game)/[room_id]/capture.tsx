@@ -4,8 +4,9 @@ import { Card } from "@/components/Card/Card";
 import ExplainCard from "@/components/Card/ExplainCard";
 import ScreenContainer from "@/components/ScreenContainer";
 import { Colors } from "@/constants/Colors";
+import { useScoreStore } from "@/store/useStore";
 import { Stack, useRouter } from "expo-router";
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet, Text, View } from "react-native";
 
 const text: string[] = [
@@ -21,6 +22,15 @@ export default function Capture() {
   const handlePress = () => {
     router.push("/room/1/result");
   };
+  const score = useScoreStore((state) => state.score);
+  const avgHex = useScoreStore((state) => state.avgHex);
+  console.log(score, avgHex);
+
+  useEffect(() => {
+    if (score !== null && avgHex !== null) {
+      router.push(`/room/1/result`);
+    }
+  }, [score, avgHex]);
 
   return (
     <ScreenContainer>

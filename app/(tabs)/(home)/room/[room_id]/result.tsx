@@ -1,3 +1,4 @@
+import CrackerAnimation from "@/components/Animation/CrackerAnimation";
 import { Button } from "@/components/Button/Button";
 import { Card } from "@/components/Card/Card";
 import { CardOnHeader } from "@/components/Card/CardOnHeader";
@@ -7,12 +8,12 @@ import Stars from "@/components/Icon/Stars";
 import TrophyIcon from "@/components/Icon/TrophyIcon";
 import ScreenContainer from "@/components/ScreenContainer";
 import { Colors } from "@/constants/Colors";
+import { useScoreStore } from "@/store/useStore";
+import { useFocusEffect } from "@react-navigation/native";
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from "expo-router";
-import { Dimensions, FlatList, Image, StyleSheet, Text, View } from "react-native";
-import CrackerAnimation from "@/components/Animation/CrackerAnimation"; 
-import { useFocusEffect } from "@react-navigation/native";
 import React from "react";
+import { Dimensions, FlatList, Image, StyleSheet, Text, View } from "react-native";
 
 
 const { width: screenWidth } = Dimensions.get('window');
@@ -21,7 +22,6 @@ const CONTAINER_PADDING = 66;
 export default function Result() {
   const round = 1;
   const winner = 'kem太郎';
-  const score = 100;
   const colorName = 'ライトブルー';
   const colorCode = '#ADD8E6';
   const router = useRouter();
@@ -31,11 +31,11 @@ export default function Result() {
   const roomOut = () => {
     router.push("/room_select");
   };
+  const score = useScoreStore((state) => state.score);
+  const avgHex = useScoreStore((state) => state.avgHex);
 
   const rankingData = [
-    { userId: 101, name: "Alice", score: 95.5, photoURL: "https://picsum.photos/id/1018/300/200" },
-    { userId: 102, name: "Bob", score: 92.0, photoURL: "https://picsum.photos/id/1024/300/200" },
-    { userId: 103, name: "Carol", score: 88.7, photoURL: "https://picsum.photos/id/1035/300/200" },
+    { userId: 101, name: "kem太郎", score: score, photoURL: "https://picsum.photos/id/1018/300/200" },
   ];
 
   const [fire, setFire] = React.useState(false);

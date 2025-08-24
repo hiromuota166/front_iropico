@@ -29,6 +29,13 @@ interface Name {
   userName: string;
 }
 
+interface Score {
+  score: number | null;
+  avgHex: string | null;
+  setScore: (newScore: number | null) => void;
+  setAvgHex: (newAvgHex: string | null) => void;
+}
+
 export const useColorStore = create<ColorState>((set) => ({
   color: null,
 
@@ -50,4 +57,11 @@ export const useGroupCodeStore = create<GroupCode>((set) => ({
 export const useNameStore = create<Name>((set) => ({
   userName: "",
   setUserName: (newName: string) => set({ userName: newName }),
+}));
+
+export const useScoreStore = create<Score>((set) => ({
+  score: null,
+  avgHex: null,
+  setScore: (newScore: number | null) => set({ score: newScore }),
+  setAvgHex: (newAvgHex: string | null) => set({ avgHex: newAvgHex }),
 }));
