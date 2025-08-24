@@ -1,16 +1,21 @@
 import ColorCardAnimation from "@/components/Animation/ColorCardAnimation";
-import { Button } from "@/components/Button/Button";
 import { Card } from "@/components/Card/Card";
 import ScreenContainer from "@/components/ScreenContainer";
 import { Colors } from "@/constants/Colors";
+import { useGroupCodeStore } from "@/store/useStore";
 import { Stack, useRouter } from "expo-router";
+import { useEffect } from "react";
 import { StyleSheet, Text, View } from "react-native";
 
 export default function GameTop() {
   const router = useRouter();
-  const handlePress = () => {
-    router.push("/(game)/1/countdown");
-  };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      router.push(`/(game)/${useGroupCodeStore.getState().code}/countdown`);
+    }, 3000);
+    return () => clearTimeout(timer);
+  }, [router]);
 
   const testColorCode = "#45B7D1";
   const testColorName = "スカイブルー";
@@ -26,7 +31,6 @@ export default function GameTop() {
           <Text className="text-2xl font-bold mb-4" style={styles.search}>{testColorCode}</Text>
         </View>
       </Card>
-      <Button onPress={handlePress} text='次へ' />
     </ScreenContainer>
   )
 }

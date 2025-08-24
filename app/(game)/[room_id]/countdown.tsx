@@ -1,14 +1,16 @@
-import React from "react";
-import { View, StyleSheet, Text } from "react-native";
-import { Stack, useRouter, useFocusEffect } from "expo-router";
-import ScreenContainer from "@/components/ScreenContainer";
 import { Button } from "@/components/Button/Button";
-import ShutterButton from "@/components/Camera/ShutterButton";
 import { PhotoTaker, PhotoTakerHandle } from "@/components/Camera/PhotoTaker";
+import ShutterButton from "@/components/Camera/ShutterButton";
+import ScreenContainer from "@/components/ScreenContainer";
+import { useGroupCodeStore } from "@/store/useStore";
+import { Stack, useRouter, useFocusEffect } from "expo-router";
+import React from "react";
+import { StyleSheet, View, Text } from "react-native";
 
 export default function Countdown() {
   const router = useRouter();
   const photoRef = React.useRef<PhotoTakerHandle>(null);
+  const groupCode = useGroupCodeStore((state) => state.code);
 
   // 10秒カウント表示用（任意）
   const [remaining, setRemaining] = React.useState<number | null>(null);
@@ -66,7 +68,7 @@ export default function Countdown() {
   );
 
   const handlePress = () => {
-    router.push("/(game)/1/capture");
+    router.push(`/(game)/${groupCode}/capture`);
   };
 
   async function handleShutter() {

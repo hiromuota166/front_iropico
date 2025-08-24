@@ -1,7 +1,7 @@
-import React from "react";
-import { View, Text, StyleSheet, TextInput, Keyboard, Pressable, Platform } from "react-native";
 import { Button } from "@/components/Button/Button";
 import { Colors } from "@/constants/Colors";
+import React from "react";
+import { Keyboard, Platform, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 
 type Props = {
   code: string;
@@ -10,12 +10,9 @@ type Props = {
 };
 
 export default function JoinGroupCard({ code, onChangeCode, onJoin }: Props) {
-  const handleBackgroundPress = (e: any) => {
+  const handleBackgroundPress = () => {
     if (Platform.OS === "web") {
-      const t = (e?.target as HTMLElement) ?? null;
-      if (t && t.closest('input, textarea, [contenteditable="true"], [role="textbox"]')) {
-        return;
-      }
+      return;
     }
     Keyboard.dismiss();
   };
@@ -27,7 +24,7 @@ export default function JoinGroupCard({ code, onChangeCode, onJoin }: Props) {
           <Text style={styles.title}>グループに参加</Text>
           <Text style={styles.desc}>友達から受け取ったコードを入力してください</Text>
         </View>
-        
+
         <TextInput
           value={code}
           onChangeText={onChangeCode}

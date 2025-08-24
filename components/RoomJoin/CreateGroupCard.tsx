@@ -1,13 +1,14 @@
-import React from "react";
-import { View, Text, StyleSheet } from "react-native";
 import { Button } from "@/components/Button/Button";
 import { Colors } from "@/constants/Colors";
+import React from "react";
+import { StyleSheet, Text, View } from "react-native";
 
 type Props = {
   onCreate: () => void;
+  disabled: boolean;
 };
 
-export default function CreateGroupCard({ onCreate }: Props) {
+export default function CreateGroupCard({ onCreate, disabled = false }: Props) {
   return (
     <View style={styles.body}>
       <View style={styles.textBox}>
@@ -16,14 +17,14 @@ export default function CreateGroupCard({ onCreate }: Props) {
         <Text style={styles.desc}>あなたがホストとなってゲームを開始できます</Text>
       </View>
 
-      <Button onPress={onCreate} text="＋   グループを作成" />
+      <Button onPress={onCreate} disabled={disabled} text="＋   グループを作成" />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   body: { gap: 12, padding: 12 },
-  
+
   textBox: {
     backgroundColor: Colors.orderCardBackground,
     borderRadius: 8,
