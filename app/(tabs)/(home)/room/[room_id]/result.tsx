@@ -8,7 +8,7 @@ import Stars from "@/components/Icon/Stars";
 import TrophyIcon from "@/components/Icon/TrophyIcon";
 import ScreenContainer from "@/components/ScreenContainer";
 import { Colors } from "@/constants/Colors";
-import { useScoreStore } from "@/store/useStore";
+import { useImageStore, useNameStore, useScoreStore } from "@/store/useStore";
 import { useFocusEffect } from "@react-navigation/native";
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from "expo-router";
@@ -21,7 +21,7 @@ const CONTAINER_PADDING = 66;
 
 export default function Result() {
   const round = 1;
-  const winner = 'kem太郎';
+  const userName = useNameStore((state) => state.userName);
   const colorName = 'ライトブルー';
   const colorCode = '#ADD8E6';
   const router = useRouter();
@@ -32,10 +32,10 @@ export default function Result() {
     router.push("/room_select");
   };
   const score = useScoreStore((state) => state.score);
-  const avgHex = useScoreStore((state) => state.avgHex);
+  const photoUrl = useImageStore((state) => state.photoUrl);
 
   const rankingData = [
-    { userId: 101, name: "kem太郎", score: score, photoURL: "https://picsum.photos/id/1018/300/200" },
+    { userId: 101, name: userName, score: score, photoURL: photoUrl },
   ];
 
   const [fire, setFire] = React.useState(false);
@@ -62,7 +62,7 @@ export default function Result() {
               <TrophyIcon />
               <View style={styles.winnerInfo}>
                 <Text style={styles.roundText}>ラウンド{round}優勝！</Text>
-                <Text style={styles.winnerText}>{winner}</Text>
+                <Text style={styles.winnerText}>{userName}</Text>
                 <Stars />
                 <Text style={styles.winnerScoreText}>スコア：{score}</Text>
               </View>

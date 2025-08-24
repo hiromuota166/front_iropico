@@ -1,6 +1,6 @@
 import { CameraCapture, CameraCaptureHandle } from '@/components/Camera/CameraCapture';
 import { fetchScore } from '@/lib/scoreApi';
-import { useScoreStore } from '@/store/useStore';
+import { useImageStore, useScoreStore } from '@/store/useStore';
 import { useRouter } from "expo-router";
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, View } from "react-native";
@@ -21,10 +21,9 @@ export const PhotoTaker = React.forwardRef<PhotoTakerHandle, PhotoTakerProps>(
     const [loading, setLoading] = useState(false);
 
     const cameraRef = React.useRef<CameraCaptureHandle>(null);
-    const score = useScoreStore((state) => state.score);
     const setScore = useScoreStore((state) => state.setScore);
-    const avgHex = useScoreStore((state) => state.avgHex);
     const setAvgHex = useScoreStore((state) => state.setAvgHex);
+    const setPhoto = useImageStore((state) => state.setPhotoUrl);
 
     const shoot = React.useCallback(async () => {
       const result = await cameraRef.current?.shoot();
@@ -41,9 +40,11 @@ export const PhotoTaker = React.forwardRef<PhotoTakerHandle, PhotoTakerProps>(
 
       setLoading(true);
       try {
+        console.log('imageBase64:', imageBase64);
         const res = await fetchScore({ imageBase64, themeHex });
         setScore(res.score);
         setAvgHex(res.avgColorHex);
+        setPhoto(previewUri || "");
       } catch (e) {
         console.log('score error', e);
         setScore(null);

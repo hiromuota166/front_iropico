@@ -37,6 +37,11 @@ interface Score {
   setAvgHex: (newAvgHex: string | null) => void;
 }
 
+interface Image {
+  photoUrl: string;
+  setPhotoUrl: (newUrl: string) => void;
+}
+
 export const useColorStore = create<ColorState>((set) => ({
   color: null,
 
@@ -65,4 +70,9 @@ export const useScoreStore = create<Score>((set) => ({
   avgHex: null,
   setScore: (newScore: number | null) => set({ score: newScore }),
   setAvgHex: (newAvgHex: string | null) => set({ avgHex: newAvgHex }),
+}));
+
+export const useImageStore = create<Image>((set) => ({
+  photoUrl: "",
+  setPhotoUrl: (newUrl: string) => set({ photoUrl: newUrl }),
 }));
