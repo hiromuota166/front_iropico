@@ -9,18 +9,19 @@ import { TitleIconAndText } from "@/components/TitleIconAndText";
 import { useWebSocket } from "@/hooks/useWebSocket";
 import { createRoom, joinRoom } from "@/lib/api";
 import { handleSignOut } from "@/lib/auth";
-import { useGroupCodeStore } from "@/store/useStore";
+import { useGroupCodeStore, useNameStore } from "@/store/useStore";
 import { getAuth } from "@firebase/auth";
 import { useRouter } from "expo-router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Alert, Keyboard, KeyboardAvoidingView, Platform, Pressable, StyleSheet, View, } from "react-native";
 
 export default function RoomTop() {
   const router = useRouter();
+  const userName = useNameStore((state) => state.userName);
   const [tab, setTab] = useState<"create" | "join">("create");
   const [joinCode, setJoinCode] = useState("");
   const [roomCreationLoading, setRoomCreationLoading] = useState(false);
-  const { isConnected, connect, disconnect } = useWebSocket();
+  const { isConnected, connect, disconnect, goGame } = useWebSocket();
   const auth = getAuth();
 
   const goRoom = () => router.push("/room/1");
@@ -42,11 +43,14 @@ export default function RoomTop() {
     }
 
     setRoomCreationLoading(true);
-    const roomData: { room_id: string } | null = await createRoom(userId);
-    useGroupCodeStore.setState({ code: joinCode.trim() });
+    console.log("Creating room for user ID:", userId);
+    const roomData = await createRoom(userId);
+    console.log("Created room data:", roomData);
+    useGroupCodeStore.setState({ code: roomData?.code });
+    console.log("Stored group code:", roomData?.code);
     if (roomData) {
       // 接続
-      const endpoint = `/ws/rooms/${roomData.room_id}?user_id=${userId}&uuid=a`;
+      const endpoint = `/ws/rooms/${roomData.code}?user_id=${userId}&uuid=a`;
       connect(endpoint);
 
       router.push(`/room/${roomData.room_id}`);
@@ -56,9 +60,19 @@ export default function RoomTop() {
     setRoomCreationLoading(false);
   };
 
+  useEffect(() => {
+    console.log("goGame changed:", goGame);
+    if (goGame) {
+      console.log("Navigating to game room with code:", useGroupCodeStore.getState().code);
+      router.push(`/(game)/${useGroupCodeStore.getState().code}`);
+    }
+  }, [goGame]);
+
   const joinGroup = async () => {
     setRoomCreationLoading(true);
+    console.log("Joining room with code:", joinCode);
     const userId: string = getUserId() || "";
+    console.log("User ID:", userId);
     if (!userId || !joinCode.trim()) {
       Alert.alert("エラー", "ユーザー情報またはルームコードが不足しています。");
       setRoomCreationLoading(false);
@@ -66,11 +80,13 @@ export default function RoomTop() {
     }
 
     try {
+      console.log("Joining room with code:", joinCode.trim());
       const result = await joinRoom(joinCode.trim(), userId);
+      console.log("Join room result:", result);
       useGroupCodeStore.setState({ code: joinCode.trim() });
       if (result) {
         // 接続
-        const endpoint = `/ws/rooms/${result.room_id}?user_id=${userId}&uuid=${userId}`;
+        const endpoint = `/ws/rooms/${joinCode}?user_id=${userId}&uuid=${userId}`;
         connect(endpoint);
 
         router.push(`/room/${joinCode.trim()}`);
@@ -100,7 +116,7 @@ export default function RoomTop() {
       >
         <Pressable onPress={onBackgroundPress} style={{ flex: 1 }}>
           <TitleIconAndText
-            title="ようこそ、aさん！"
+            title={`ようこそ、${userName || "ゲスト"}さん！`}
             subTitle="グループを作成するか参加してください"
           >
             <UserGroupIcon />

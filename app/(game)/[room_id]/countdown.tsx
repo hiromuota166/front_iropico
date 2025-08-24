@@ -1,17 +1,19 @@
-import React from "react";
-import { View, StyleSheet } from "react-native";
-import { Stack, useRouter } from "expo-router";
-import ScreenContainer from "@/components/ScreenContainer";
 import { Button } from "@/components/Button/Button";
-import ShutterButton from "@/components/Camera/ShutterButton";
 import { PhotoTaker, PhotoTakerHandle } from "@/components/Camera/PhotoTaker";
+import ShutterButton from "@/components/Camera/ShutterButton";
+import ScreenContainer from "@/components/ScreenContainer";
+import { useGroupCodeStore } from "@/store/useStore";
+import { Stack, useRouter } from "expo-router";
+import React from "react";
+import { StyleSheet, View } from "react-native";
 
 export default function Countdown() {
   const router = useRouter();
   const photoRef = React.useRef<PhotoTakerHandle>(null);
+  const groupCode = useGroupCodeStore((state) => state.code);
 
   const handlePress = () => {
-    router.push("/(game)/1/capture");
+    router.push(`/(game)/${groupCode}/capture`);
   };
 
   async function handleShutter() {
@@ -23,7 +25,7 @@ export default function Countdown() {
       <Stack.Screen options={{ headerShown: false }} />
 
       <Button onPress={handlePress} text="この色を探してください" />
-      
+
       <View style={styles.cameraArea}>
         <PhotoTaker ref={photoRef} themeHex="#bce2e8" />
       </View>

@@ -42,7 +42,7 @@ export async function createRoom(uid: string) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
-    const data = await response.json();
+    const data = (await response.json()) as { code: string; room_id: string };
     return data;
   } catch (error) {
     console.error("Failed to create room:", error);
@@ -59,7 +59,7 @@ export async function joinRoom(roomCode: string, uid: string) {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ user_id: uid }),
+      body: JSON.stringify({ uid: uid }),
     });
 
     if (!response.ok) {
@@ -81,6 +81,7 @@ export async function joinRoom(roomCode: string, uid: string) {
 }
 
 export async function startRoom(roomCode: string) {
+  console.log(`${API_BASE_URL}/rooms/${roomCode}/start`);
   try {
     const response = await fetch(`${API_BASE_URL}/rooms/${roomCode}/start`, {
       method: "POST",

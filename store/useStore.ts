@@ -25,6 +25,10 @@ interface GroupCode {
   room_id?: number;
 }
 
+interface Name {
+  userName: string;
+}
+
 export const useColorStore = create<ColorState>((set) => ({
   color: null,
 
@@ -41,4 +45,9 @@ export const useRankingStore = create<RankingState>((set) => ({
 export const useGroupCodeStore = create<GroupCode>((set) => ({
   code: "",
   room_id: 0,
+}));
+
+export const useNameStore = create<Name>((set) => ({
+  userName: "",
+  setUserName: (newName: string) => set({ userName: newName }),
 }));

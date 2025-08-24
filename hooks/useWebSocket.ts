@@ -1,5 +1,5 @@
 import { useColorStore, useRankingStore } from "@/store/useStore";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 
 const WS_BASE_URL = process.env.EXPO_PUBLIC_WS_URL || "ws://172.16.1.117:3000";
 
@@ -31,7 +31,7 @@ export const useWebSocket = (
       const newWs = new WebSocket(`${WS_BASE_URL}${endpoint}`);
 
       newWs.onopen = () => {
-        console.log("WebSocket connected");
+        console.log("WebSocket connected", `${WS_BASE_URL}${endpoint}`);
         setIsConnected(true);
       };
 
@@ -48,8 +48,8 @@ export const useWebSocket = (
         // }
         try {
           const data: WebSocketMessage = JSON.parse(event.data);
-
-          if (data.type === "start") {
+          console.log("WebSocket message received:", data);
+          if (data.type === "game_started") {
             if (data.color) {
               setColor(data.color);
             }
@@ -87,11 +87,11 @@ export const useWebSocket = (
     }
   }, []);
 
-  useEffect(() => {
-    return () => {
-      disconnect();
-    };
-  }, [disconnect]);
+  // useEffect(() => {
+  //   return () => {
+  //     disconnect();
+  //   };
+  // }, [disconnect]);
 
   return { isConnected, goGame, connect, disconnect };
 };

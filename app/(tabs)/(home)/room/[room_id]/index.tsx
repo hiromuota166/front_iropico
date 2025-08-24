@@ -5,25 +5,23 @@ import UserGroupIcon from "@/components/Icon/UserGroupIcon";
 import ScreenContainer from "@/components/ScreenContainer";
 import { TitleIconAndText } from "@/components/TitleIconAndText";
 import { UserList } from "@/components/UserList";
-import { useWebSocket } from "@/hooks/useWebSocket";
+import { startRoom } from "@/lib/api";
 import { useGroupCodeStore } from "@/store/useStore";
 import { useRouter } from "expo-router";
-import { useEffect } from "react";
 import { StyleSheet, View } from "react-native";
 
 export default function RoomTop() {
   const router = useRouter();
-  const { goGame } = useWebSocket();
+  // const { goGame } = useWebSocket();
   const groupCode = useGroupCodeStore((state) => state.code);
-  const handlePress = () => {
+
+  const handlePress = async () => {
+    console.log("RoomTop groupCode:", groupCode);
+    const data = await startRoom(groupCode);
+    console.log("startRoom data:", data);
     router.push(`/(game)/${groupCode}`);
   };
 
-  useEffect(() => {
-    if (goGame) {
-      router.push(`/(game)/${groupCode}`);
-    }
-  }, [goGame]);
   const roomOut = () => {
     router.push("/room_select");
   };
