@@ -95,6 +95,3 @@ export const useWebSocket = (
 
   return { isConnected, goGame, connect, disconnect };
 };
-function setColor(color: { h: number; s: number; v: number }) {
-  throw new Error("Function not implemented.");
-}
