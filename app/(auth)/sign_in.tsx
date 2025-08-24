@@ -122,10 +122,6 @@ export default function SignIn() {
               <Button onPress={onSignUpPress} text='新規登録' />
             </View>
           </CardOnHeader>
-          <Button
-            onPress={handlePress}
-            text='ルーム選択画面に移動（認証なしデモ）'
-          />
         </SafeAreaView>
       </Pressable>
     </KeyboardAvoidingView>

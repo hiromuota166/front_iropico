@@ -1,5 +1,4 @@
 import ClockAnimation from "@/components/Animation/ClockAnimation";
-import { Button } from "@/components/Button/Button";
 import { Card } from "@/components/Card/Card";
 import ExplainCard from "@/components/Card/ExplainCard";
 import ScreenContainer from "@/components/ScreenContainer";
@@ -43,7 +42,6 @@ export default function Capture() {
           <ExplainCard title={title} text={text} />
         </View>
       </Card>
-      <Button onPress={handlePress} text='次へ' />
     </ScreenContainer>
   )
 }

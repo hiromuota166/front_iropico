@@ -141,7 +141,6 @@ export default function RoomTop() {
             </Card>
 
             <View style={styles.buttonRow}>
-              <Button onPress={goRoom} text="ルーム画面に遷移する" />
               <Button onPress={logout} text="ログアウトする" />
             </View>
           </View>
