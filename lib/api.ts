@@ -3,7 +3,7 @@ import { Alert } from "react-native";
 // uuid は string 型で UUID 型でもない
 
 const API_BASE_URL =
-  process.env.EXPO_PUBLIC_DB_URL || "http://172.16.1.117:3000";
+  process.env.EXPO_PUBLIC_DB_URL || "http://172.16.1.72:3000";
 
 export async function createUser(name: string, uid: string) {
   try {
@@ -42,7 +42,7 @@ export async function createRoom(uid: string) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
-    const data = (await response.json()) as { code: string; room_id: string };
+    const data = await response.json();
     return data;
   } catch (error) {
     console.error("Failed to create room:", error);
@@ -65,18 +65,11 @@ export async function joinRoom(roomCode: string, uid: string) {
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-
-    if (response.status === 204) {
-      console.log("Joined room successfully with 204 No Content.");
-      return {};
-    }
-
-    const data = await response.json();
-    return data;
+    return true;
   } catch (error) {
     console.error("Failed to join room:", error);
     Alert.alert("Error", "グループ参加に失敗しました。");
-    return null;
+    return false;
   }
 }
 

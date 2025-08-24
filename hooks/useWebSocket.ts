@@ -1,7 +1,7 @@
 import { useColorStore, useRankingStore } from "@/store/useStore";
 import { useCallback, useRef, useState } from "react";
 
-const WS_BASE_URL = process.env.EXPO_PUBLIC_WS_URL || "ws://172.16.1.117:3000";
+const WS_BASE_URL = process.env.EXPO_PUBLIC_WS_URL || "ws://172.16.1.72:3000";
 
 // 新しい型定義を追加
 export type WebSocketMessage = {
@@ -24,11 +24,14 @@ export const useWebSocket = (
 
   const connect = useCallback(
     (endpoint: string) => {
+      console.log("connectきた");
       if (ws.current) {
         ws.current.close();
+        console.log("クローズされてる");
       }
 
       const newWs = new WebSocket(`${WS_BASE_URL}${endpoint}`);
+      console.log("newWs:", newWs);
 
       newWs.onopen = () => {
         console.log("WebSocket connected", `${WS_BASE_URL}${endpoint}`);

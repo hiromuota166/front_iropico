@@ -49,8 +49,10 @@ export default function RoomTop() {
     useGroupCodeStore.setState({ code: roomData?.code });
     console.log("Stored group code:", roomData?.code);
     if (roomData) {
+      console.log("ここまで来てるよ：", roomData.code);
       // 接続
-      const endpoint = `/ws/rooms/${roomData.code}?user_id=${userId}&uuid=a`;
+      const endpoint = `/ws/rooms/${roomData.code}?uid=${userId}`;
+      console.log("WebSocket endpoint:", endpoint);
       connect(endpoint);
 
       router.push(`/room/${roomData.room_id}`);
@@ -86,7 +88,8 @@ export default function RoomTop() {
       useGroupCodeStore.setState({ code: joinCode.trim() });
       if (result) {
         // 接続
-        const endpoint = `/ws/rooms/${joinCode}?user_id=${userId}&uuid=${userId}`;
+        const endpoint = `/ws/rooms/${joinCode.trim()}?uid=${userId}`;
+        console.log(endpoint);
         connect(endpoint);
 
         router.push(`/room/${joinCode.trim()}`);
