@@ -17,6 +17,18 @@ const handleSignUp = async (
       password
     );
     const user = userCredential.user;
+
+    await fetch("http://localhost:3000/users/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: user.displayName ?? "no-name",
+        uuid: user.uid,
+      }),
+    });
+
     console.log("新規登録成功！ユーザー:", user.email);
 
     return user;
